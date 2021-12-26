@@ -144,6 +144,7 @@ Note that it is a good practice to end inline `style` declarations with a `;`
   .blue-text {
     color: blue;
     font-size: 30px;
+    font-wight: 200;
     font-family: sans-serif;
   }
 </style>
@@ -207,7 +208,7 @@ Family names are case-sensitive and need to be wrapped in quotes if there is a s
 
 - An element's `padding` controls the amount of space between the element's content and its `border`.
 
-![Screen Shot 2021-12-25 at 22.33.47.png](/var/folders/y6/ttkvjskx6778fclb29vmw7qw0000gn/T/TemporaryItems/NSIRD_screencaptureui_7ybVuv/Screen%20Shot%202021-12-25%20at%2022.33.47.png)
+![Screen Shot 2021-12-26 at 13.17.03.png](https://raw.githubusercontent.com/yxshi610/images/main/2021/12/26-13-17-06-Screen%20Shot%202021-12-26%20at%2013.17.03.png)
 
 - An element's `margin` controls the amount of space between an element's `border` and surrounding elements. If you set an element's `margin` to a negative value, the element will grow larger.
 
@@ -242,3 +243,616 @@ color: red !important;
 ```
 
 - In CSS, we can use 6 hexadecimal digits to represent colors, two each for the red (R), green (G), and blue (B) components. For example, `#000000` is black and is also the lowest possible value. You can find more information about the [RGB color system here](https://www.freecodecamp.org/news/rgb-color-html-and-css-guide/#whatisthergbcolormodel).
+- RGB values
+
+       The `RGB` value for black looks like this:
+
+```css
+rgb(0, 0, 0)
+```
+
+- CSS Variables are a powerful way to change many CSS style properties at once by changing only one value. To create a CSS variable, you just need to give it a name with two hyphens in front of it and assign it a value like this:
+
+```css
+--penguin-skin: gray;
+```
+
+After you create your variable, you can assign its value to other CSS properties by referencing the name you gave it. (black is a fallback color)
+
+```css
+background: var(--penguin-skin, black);
+```
+
+- `:root` is a pseudo-class selector that matches the root element of the document, usually the `html` element. By creating your variables in `:root`, they will be available globally and can be accessed from any other selector in the style sheet.
+
+- play with media size. (responsive)
+
+```css
+<style>
+    :root {
+    --penguin-size: 300px;
+    --penguin-skin: gray;
+    }
+
+    @media (max-width: 350px) {
+        :root {
+        --penguin-size: 200px;
+        --penguin-skin: black;
+        }
+    }
+</style>
+```
+
+## Applied Visual Design
+
+- Text is often a large part of web content. CSS has several options for how to align it with the `text-align` property.
+  
+  `text-align: justify;` spaces the text so that each line has equal width.
+  
+  `text-align: center;` centers the text
+  
+  `text-align: right;` right-aligns the text
+  
+  And `text-align: left;` (the default) left-aligns the text.
+
+- width, height.
+
+- To make text bold, you can use the `strong` tag. This is often used to draw attention to text and symbolize that it is important. With the `strong` tag, the browser applies the CSS of `font-weight: bold;` to the element.
+
+```html
+<p>Google at <strong>Stanford University</strong>.</p>
+```
+
+- To underline text, you can use the `u` tag. This is often used to signify that a section of text is important, or something to remember. With the `u` tag, the browser applies the CSS of `text-decoration: underline;` to the element.
+
+- To emphasize text, you can use the `em` tag. This displays text as italicized, as the browser applies the CSS of `font-style: italic;` to the element.
+
+- To strikethrough text, which is when a horizontal line cuts across the characters, you can use the `s` tag. It shows that a section of text is no longer valid. With the `s` tag, the browser applies the CSS of `text-decoration: line-through;` to the element.
+
+- You can use the `hr` tag to add a horizontal line across the width of its containing element. This can be used to define a change in topic or to visually separate groups of content.
+
+<img title="" src="https://raw.githubusercontent.com/yxshi610/images/main/2021/12/26-14-11-00-Screen%20Shot%202021-12-26%20at%2014.10.56.png" alt="Screen Shot 2021-12-26 at 14.10.56.png" data-align="center">
+
+- Instead of adjusting your overall background or the color of the text to make the foreground easily readable, you can add a `background-color` to the element holding the text you want to emphasize. This challenge uses `rgba()` instead of `hex` codes or normal `rgb()`.
+  
+  > rgba stands for:  
+  >   r = red  
+  >   g = green  
+  >   b = blue  
+  >   a = alpha/level of opacity
+  
+  The RGB values can range from 0 to 255. The alpha value can range from 1, which is fully opaque or a solid color, to 0, which is fully transparent or clear. `rgba()` is great to use in this case, as it allows you to adjust the opacity. This means you don't have to completely block out the background.
+
+- box-shadow to card-like ele
+
+        `offset-x` (how far to push the shadow horizontally from the element),
+
+        `offset-y` (how far to push the shadow vertically from the element),
+
+        `blur-radius`,
+
+        `spread-radius` and
+
+        `color`, in that order.
+
+The `blur-radius` and `spread-radius` values are optional.
+
+Multiple box-shadows can be created by using commas to separate properties of each `box-shadow` element.
+
+```css
+box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+```
+
+<img src="https://raw.githubusercontent.com/yxshi610/images/main/2021/12/26-14-15-53-Screen%20Shot%202021-12-26%20at%2014.15.48.png" title="" alt="Screen Shot 2021-12-26 at 14.15.48.png" data-align="center">
+
+- opacity: 0.7; line-height: 20px;
+
+- text-transform
+
+| Value        | Result                                                 |
+| ------------ | ------------------------------------------------------ |
+| `lowercase`  | "transform me"                                         |
+| `uppercase`  | "TRANSFORM ME"                                         |
+| `capitalize` | "Transform Me"                                         |
+| `initial`    | Use the default value                                  |
+| `inherit`    | Use the `text-transform` value from the parent element |
+| `none`       | **Default:** Use the original text                     |
+
+- A pseudo-class is a keyword that can be added to selectors, in order to select a specific state of the element.
+  
+  For example, the styling of an anchor tag can be changed for its hover state using the `:hover` pseudo-class selector. Here's the CSS to change the `color` of the anchor tag to red during its hover state.
+
+```css
+a:hover {
+  color: red;
+}
+```
+
+- CSS treats each HTML element as its own box, which is usually referred to as the CSS Box Model. Block-level items automatically start on a new line (think headings, paragraphs, and divs) while inline items sit within surrounding content (like images or spans). The default layout of elements in this way is called the normal flow of a document, but CSS offers the position property to override it.
+  
+  When the position of an element is set to `relative`, it allows you to specify how CSS should move it *relative* to its current position in the normal flow of the page. It pairs with the CSS offset properties of `left` or `right`, and `top` or `bottom`. These say how many pixels, percentages, or ems to move the item *away* from where it is normally positioned. The following example moves the paragraph 10 pixels away from the bottom:
+
+```css
+p {
+  position: relative;
+  bottom: 10px;
+}
+```
+
+       does not affect others.
+
+- The next option for the CSS `position` property is `absolute`, which locks the element in place relative to its parent container. Unlike the `relative` position, this removes the element from the normal flow of the document, so surrounding items ignore it. The CSS offset properties (top or bottom and left or right) are used to adjust the position.
+  
+  One nuance with absolute positioning is that it will be locked relative to its closest *positioned* ancestor. If you forget to add a position rule to the parent item, (this is typically done using `position: relative;`), the browser will keep looking up the chain and ultimately default to the `body` tag.
+
+- The next layout scheme that CSS offers is the `fixed` position, which is a type of absolute positioning that locks an element relative to the browser window. Similar to absolute positioning, it's used with the CSS offset properties and also removes the element from the normal flow of the document. Other items no longer "realize" where it is positioned, which may require some layout adjustments elsewhere.
+  
+  One key difference between the `fixed` and `absolute` positions is that an element with a fixed position won't move when the user scrolls.
+
+- The next positioning tool does not actually use `position`, but sets the `float` property of an element. Floating elements are removed from the normal flow of a document and pushed to either the `left` or `right` of their containing parent element. It's commonly used with the `width` property to specify how much horizontal space the floated element requires.
+
+```css
+<style>    
+    #left {
+      float: left;
+      width: 50%;
+    }
+    #right {
+      float: right;
+      width: 40%;
+    }
+</style>
+```
+
+- When elements are positioned to overlap (i.e. using `position: absolute | relative | fixed | sticky`), the element coming later in the HTML markup will, by default, appear on the top of the other elements. However, the `z-index` property can specify the order of how elements are stacked on top of one another. It must be an integer (i.e. a whole number and not a decimal), and higher values for the `z-index` property of an element move it higher in the stack than those with lower values.
+
+```css
+.first {
+    background-color: red;
+    position: absolute;
+    z-index: 2;
+  }
+  .second {
+    background-color: blue;
+    position: absolute;
+    left: 40px;
+    top: 50px;
+    z-index: 1;
+  }
+```
+
+- Another positioning technique is to center a block element horizontally. One way to do this is to set its `margin` to a value of auto.
+  
+  This method works for images, too. Images are inline elements by default, but can be changed to block elements when you set the `display` property to `block`.
+
+- Some examples of complementary colors with their hex codes are:
+  
+  > red (#FF0000) and cyan (#00FFFF)  
+  > green (#00FF00) and magenta (#FF00FF)  
+  > blue (#0000FF) and yellow (#FFFF00)
+
+- There are various methods of selecting different colors that result in a harmonious combination in design. One example that can use tertiary colors is called the split-complementary color scheme. This scheme starts with a base color, then pairs it with the two colors that are adjacent to its complement. The three colors provide strong visual contrast in a design, but are more subtle than using two complementary colors.
+  
+  Here are three colors created using the split-complement scheme:
+  
+  | Color     | Hex Code |
+  | --------- | -------- |
+  | orange    | #FF7F00  |
+  | cyan      | #00FFFF  |
+  | raspberry | #FF007F  |
+
+- **Hue** is what people generally think of as 'color'. If you picture a spectrum of colors starting with red on the left, moving through green in the middle, and blue on right, the hue is where a color fits along this line. In `hsl()`, hue uses a color wheel concept instead of the spectrum, where the angle of the color on the circle is given as a value between 0 and 360.
+  
+  **Saturation** is the amount of gray in a color. A fully saturated color has no gray in it, and a minimally saturated color is almost completely gray. This is given as a percentage with 100% being fully saturated.
+  
+  **Lightness** is the amount of white or black in a color. A percentage is given ranging from 0% (black) to 100% (white), where 50% is the normal color.
+  
+  Here are a few examples of using `hsl()` with fully-saturated, normal lightness colors:
+  
+  | Color   | HSL                 |
+  | ------- | ------------------- |
+  | red     | hsl(0, 100%, 50%)   |
+  | yellow  | hsl(60, 100%, 50%)  |
+  | green   | hsl(120, 100%, 50%) |
+  | cyan    | hsl(180, 100%, 50%) |
+  | blue    | hsl(240, 100%, 50%) |
+  | magenta | hsl(300, 100%, 50%) |
+
+- CSS provides the ability to use color transitions, otherwise known as gradients, on elements. This is accessed through the `background` property's `linear-gradient()` function.
+
+```css
+background: linear-gradient(gradient_direction, color 1, color 2, color 3, ...);
+```
+
+The first argument specifies the direction from which color transition starts - it can be stated as a degree, where `90deg` makes a horizontal gradient (from left to right) and `45deg` makes a diagonal gradient (from bottom left to top right). The following arguments specify the order of colors used in the gradient.
+
+Example:
+
+```css
+background: linear-gradient(90deg, red, yellow, rgb(204, 204, 255));
+```
+
+- The angle value is the direction of the gradient. Color stops are like width values that mark where a transition takes place, and are given with a percentage or a number of pixels.
+  
+  The gradient starts with the color `yellow` at 0 pixels which blends into the second color `blue` at 40 pixels away from the start. Since the next color stop is also at 40 pixels, the gradient immediately changes to the third color `green`, which itself blends into the fourth color value `red` as that is 80 pixels away from the beginning of the gradient.
+  
+  For this example, it helps to think about the color stops as pairs where every two colors blend together.
+  
+  ```css
+  0px [yellow -- blend -- blue] 40px [green -- blend -- red] 80px
+  
+  background: repeating-linear-gradient(
+        90deg,
+        yellow 0px,
+        blue 40px,
+        green 40px,
+        red 80px
+      );
+  ```
+
+<img src="https://raw.githubusercontent.com/yxshi610/images/main/2021/12/26-14-47-57-Screen%20Shot%202021-12-26%20at%2014.47.54.png" title="" alt="Screen Shot 2021-12-26 at 14.47.54.png" data-align="center">
+
+<img src="https://raw.githubusercontent.com/yxshi610/images/main/2021/12/26-14-50-05-Screen%20Shot%202021-12-26%20at%2014.50.00.png" title="" alt="Screen Shot 2021-12-26 at 14.50.00.png" data-align="center">
+
+- The `background` property supports the `url()` function in order to link to an image of the chosen texture or pattern. The link address is wrapped in quotes inside the parentheses.
+
+- To change the scale of an element, CSS has the `transform` property, along with its `scale()` function. The following code example doubles the size of all the paragraph elements on the page:
+  
+  ```css
+  p {
+    transform: scale(2);
+  }
+  ```
+
+- `transform` property is `skewX()`, which skews the selected element along its X (horizontal) axis by a given degree. Same with `skewY()`.
+  
+  The following code skews the paragraph element by -32 degrees along the X-axis.
+  
+  ```css
+  p {
+    transform: skewX(-32deg);
+  }
+  ```
+
+![Screen Shot 2021-12-26 at 15.02.52.png](https://raw.githubusercontent.com/yxshi610/images/main/2021/12/26-15-02-55-Screen%20Shot%202021-12-26%20at%2015.02.52.png)
+
+- `::before` creates a pseudo-element that is the first child of the selected element; `::after` creates a pseudo-element that is the last child of the selected element. In the following example, a `::before` pseudo-element is used to add a rectangle to an element with the class `heart`:
+  
+  ```css
+  .heart::before {
+    content: "";
+    background-color: yellow;
+    border-radius: 25%;
+    position: absolute;
+    height: 50px;
+    width: 70px;
+    top: -50px;
+    left: 5px;
+  }
+  ```
+  
+  For the `::before` and `::after` pseudo-elements to function properly, they must have a defined `content` property. This property is usually used to add things like a photo or text to the selected element. When the `::before` and `::after` pseudo-elements are used to make shapes, the `content` property is still required, but it's set to an empty string. 
+
+- To animate an element, you need to know about the animation properties and the `@keyframes` rule. The animation properties control how the animation should behave and the `@keyframes` rule controls what happens during that animation. There are eight animation properties in total. 
+  
+  `animation-name` sets the name of the animation, which is later used by `@keyframes` to tell CSS which rules go with which animations.
+  
+  `animation-duration` sets the length of time for the animation.
+  
+  `@keyframes` is how to specify exactly what happens within the animation over the duration. This is done by giving CSS properties for specific "frames" during the animation, with percentages ranging from 0% to 100%. Then CSS applies the magic to transition the element over the given duration to act out the scene. Here's an example to illustrate the usage of `@keyframes` and the animation properties:
+  
+  ```css
+  #anim {
+    animation-name: colorful;
+    animation-duration: 3s;
+  }
+  
+  @keyframes colorful {
+    0% {
+      background-color: blue;
+    }
+    100% {
+      background-color: yellow;
+    }
+  }
+  ```
+
+- You can use CSS `@keyframes` to change the color of a button in its hover state.
+  
+  Here's an example of changing the width of an image on hover:
+  
+  ```html
+  <style>
+    img {
+      width: 30px;
+    }
+    img:hover {
+      animation-name: width;
+      animation-duration: 500ms;
+    }
+  
+    @keyframes width {
+      100% {
+        width: 40px;
+      }
+    }
+  </style>
+  ```
+
+- This can be done by setting the `animation-fill-mode` property to `forwards`. The `animation-fill-mode` specifies the style applied to an element when the animation has finished. You can set it like so:
+  
+  ```css
+  animation-fill-mode: forwards;
+  ```
+
+- The previous challenges covered how to use some of the animation properties and the `@keyframes` rule. Another animation property is the `animation-iteration-count`, which allows you to control how many times you would like to loop through the animation. Here's an example:
+  
+  ```css
+  animation-iteration-count: 3;
+  ```
+  
+  In this case the animation will stop after running 3 times, but it's possible to make the animation run continuously by setting that value to `infinite`.
+
+- In CSS animations, the `animation-timing-function` property controls how quickly an animated element changes over the duration of the animation. If the animation is a car moving from point A to point B in a given time (your `animation-duration`), the `animation-timing-function` says how the car accelerates and decelerates over the course of the drive.
+  
+  There are a number of predefined keywords available for popular options. For example, the default value is `ease`, which starts slow, speeds up in the middle, and then slows down again in the end. Other options include `ease-out`, which is quick in the beginning then slows down, `ease-in`, which is slow in the beginning, then speeds up at the end, or `linear`, which applies a constant animation speed throughout.
+
+- In CSS animations, Bezier curves are used with the `cubic-bezier` function. The shape of the curve represents how the animation plays out. The curve lives on a 1 by 1 coordinate system. The X-axis of this coordinate system is the duration of the animation (think of it as a time scale), and the Y-axis is the change in the animation.
+  
+  The `cubic-bezier` function consists of four main points that sit on this 1 by 1 grid: `p0`, `p1`, `p2`, and `p3`. `p0` and `p3` are set for you - they are the beginning and end points which are always located respectively at the origin (0, 0) and (1, 1). You set the x and y values for the other two points, and where you place them in the grid dictates the shape of the curve for the animation to follow. This is done in CSS by declaring the x and y values of the `p1` and `p2` "anchor" points in the form: `(x1, y1, x2, y2)`. Pulling it all together, here's an example of a Bezier curve in CSS code:
+  
+  ```css
+  animation-timing-function: cubic-bezier(0.25, 0.25, 0.75, 0.75);
+  ```
+  
+  In the example above, the x and y values are equivalent for each point (x1 = 0.25 = y1 and x2 = 0.75 = y2), which if you remember from geometry class, results in a line that extends from the origin to point (1, 1). This animation is a linear change of an element during the length of an animation, and is the same as using the `linear` keyword. In other words, it changes at a constant speed.
+  
+  Can be larger than 1.
+  
+  ## Applied Accessibility
+
+- add alt="" to make img more beautiful.
+
+- As an example, a page with an `h2` element followed by several subsections labeled with `h4` elements would confuse a screen reader user. With six choices, it's tempting to use a tag because it looks better in a browser, but you can use CSS to edit the relative sizing.
+  
+  One final point, each page should always have one (and only one) `h1` element, which is the main subject of your content. This and the other headings are used in part by search engines to understand the topic of the page.
+
+- HTML5 introduced several new elements that give developers more options while also incorporating accessibility features. These tags include `main`, `header`, `footer`, `nav`, `article`, and `section`, among others. By default, a browser renders these elements similar to the humble `div`.
+  
+  The `main` element is used to wrap (you guessed it) the main content, and there should be only one per page. It's meant to surround the information related to your page's central topic. It's not meant to include items that repeat across pages, like navigation links or banners.
+  
+  The `main` tag also has an embedded landmark feature that assistive technology can use to navigate to the main content quickly. If you've ever seen a "Jump to Main Content" link at the top of a page, using the `main` tag automatically gives assistive devices that functionality.
+
+- `article` is another one of the new HTML5 elements that add semantic meaning to your markup. `article` is a sectioning element and is used to wrap independent, self-contained content. The tag works well with blog entries, forum posts, or news articles.
+  
+  **Note:** The `section` element is also new with HTML5, and has a slightly different semantic meaning than `article`. An `article` is for standalone content, and a `section` is for grouping thematically related content. They can be used within each other, as needed. For example, if a book is the `article`, then each chapter is a `section`. When there's no relationship between groups of content, then use a `div`.
+  
+  `<div>` - groups content `<section>` - groups related content `<article>` - groups independent, self-contained content
+
+- `header` tag. It's used to wrap introductory information or navigation links for its parent tag and works well around content that's repeated at the top on multiple pages.
+  
+  `header` shares the embedded landmark feature you saw with `main`, allowing assistive technologies to quickly navigate to that content.
+  
+  **Note:** The `header` is meant for use in the `body` tag of your HTML document. It is different than the `head` element, which contains the page's title, meta information, etc.
+
+- wrap around the main navigation links in your page.
+  
+  If there are repeated site links at the bottom of the page, it isn't necessary to markup those with a `nav` tag as well. Using a `footer` (covered in the next challenge) is sufficient.
+
+- `footer` element has a built-in landmark feature that allows assistive devices to quickly navigate to it. It's primarily used to contain copyright information or links to related documents that usually sit at the bottom of a page.
+
+- The `audio` tag supports the `controls` attribute. This shows the browser default play, pause, and other controls, and supports keyboard functionality. This is a boolean attribute, meaning it doesn't need a value, its presence on the tag turns the setting on.
+  
+  Here's an example:
+  
+  ```html
+  <audio id="meowClip" controls>
+    <source src="audio/meow.mp3" type="audio/mpeg">
+    <source src="audio/meow.ogg" type="audio/ogg">
+  </audio>
+  ```
+
+<img src="https://raw.githubusercontent.com/yxshi610/images/main/2021/12/26-15-41-20-Screen%20Shot%202021-12-26%20at%2015.41.17.png" title="" alt="Screen Shot 2021-12-26 at 15.41.17.png" data-align="center">
+
+- note that the `figcaption` goes inside the `figure` tags and can be combined with other elements:
+  
+  ```html
+  <figure>
+    <img src="roundhouseDestruction.jpeg" alt="Photo of Camper Cat executing a roundhouse kick">
+    <br>
+    <figcaption>
+      Master Camper Cat demonstrates proper form of a roundhouse kick.
+    </figcaption>
+  </figure>
+  ```
+
+- The value of the `for` attribute must be the same as the value of the `id` attribute of the form control. Here's an example:
+  
+  ```html
+  <form>
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name">
+  </form>
+  ```
+
+- The `fieldset` tag surrounds the entire grouping of radio buttons to achieve this. It often uses a `legend` tag to provide a description for the grouping, which screen readers read for each choice in the `fieldset` element.
+  
+  The `fieldset` wrapper and `legend` tag are not necessary when the choices are self-explanatory, like a gender selection. Using a `label` with the `for` attribute for each radio button is sufficient.
+  
+  Here's an example:
+  
+  ```html
+  <form>
+    <fieldset>
+      <legend>Choose one of these three items:</legend>
+      <input id="one" type="radio" name="items" value="one">
+      <label for="one">Choice One</label><br>
+      <input id="two" type="radio" name="items" value="two">
+      <label for="two">Choice Two</label><br>
+      <input id="three" type="radio" name="items" value="three">
+      <label for="three">Choice Three</label>
+    </fieldset>
+  </form>
+  ```
+
+![Screen Shot 2021-12-26 at 15.47.06.png](https://raw.githubusercontent.com/yxshi610/images/main/2021/12/26-15-47-09-Screen%20Shot%202021-12-26%20at%2015.47.06.png)
+
+- time
+  
+  ```html
+  <input type="date">
+  <p>S<time datetime="2013-02-13">last Wednesday</time>a.</p>
+  ```
+
+- what exactly does "sufficient" mean?
+  
+  The Web Content Accessibility Guidelines (WCAG) recommend at least a 4.5 to 1 contrast ratio for normal text. The ratio is calculated by comparing the relative luminance values of two colors. This ranges from 1:1 for the same color, or no contrast, to 21:1 for white against black, the most substantial contrast. There are many contrast checking tools available online that calculate this ratio for you.
+
+- HTML offers the `accesskey` attribute to specify a shortcut key to activate or bring focus to an element. Adding an `accesskey` attribute can make navigation more efficient for keyboard-only users.
+  
+  HTML5 allows this attribute to be used on any element, but it's particularly useful when it's used with interactive ones. This includes links, buttons, and form controls.
+  
+  Here's an example:
+  
+  ```html
+  <button accesskey="b">Important Button</button>
+  ```
+
+- The HTML `tabindex` attribute has three distinct functions relating to an element's keyboard focus. When it's on a tag, it indicates that the element can be focused on. The value (an integer that's positive, negative, or zero) determines the behavior.
+  
+  Certain elements, such as links and form controls, automatically receive keyboard focus when a user tabs through a page. It's in the same order as the elements come in the HTML source markup. This same functionality can be given to other elements, such as `div`, `span`, and `p`, by placing a `tabindex="0"` attribute on them. Here's an example:
+  
+  ```html
+  <div tabindex="0">I need keyboard focus!</div>
+  ```
+  
+  **Note:** A negative `tabindex` value (typically -1) indicates that an element is focusable, but is not reachable by the keyboard. This method is generally used to bring focus to content programmatically (like when a `div` used for a pop-up window is activated), and is beyond the scope of these challenges.
+  
+  Bonus - using `tabindex` also enables the CSS pseudo-class `:focus` to work on the `p` tag.
+  
+  Setting a `tabindex="1"` will bring keyboard focus to that element first. Then it cycles through the sequence of specified `tabindex` values (2, 3, etc.), before moving to default and `tabindex="0"` items.
+
+## Responsive Web Design Principles
+
+- Media Queries consist of a media type, and if that media type matches the type of device the document is displayed on, the styles are applied. You can have as many selectors and styles inside your media query as you want.
+  
+  Here's an example of a media query that returns the content when the device's width is less than or equal to `100px`:
+  
+  ```css
+  @media (max-width: 100px) { /* CSS Rules */ }
+  ```
+  
+  and the following media query returns the content when the device's height is more than or equal to `350px`:
+  
+  ```css
+  @media (min-height: 350px) { /* CSS Rules */ }
+  ```
+  
+  Remember, the CSS inside the media query is applied only if the media type matches that of the device being used.
+
+- Making images responsive with CSS is actually very simple. You just need to add these properties to an image:
+  
+  ```css
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  ```
+  
+  The `max-width` of `100%` will make sure the image is never wider than the container it is in, and the `height` of `auto` will make the image keep its original aspect ratio.
+
+- The simplest way to make your images properly appear on High-Resolution Displays, such as the MacBook Pros "retina display" is to define their `width` and `height` values as only half of what the original file is. Here is an example of an image that is only using half of the original height and width:
+  
+  ```html
+  <style>
+    img { height: 250px; width: 250px; }
+  </style>
+  <img src="coolPic500x500" alt="A most excellent picture">
+  ```
+
+- Instead of using `em` or `px` to size text, you can use viewport units for responsive typography. Viewport units, like percentages, are relative units, but they are based off different items. Viewport units are relative to the viewport dimensions (width or height) of a device, and percentages are relative to the size of the parent container element.
+  
+  The four different viewport units are:
+  
+  - `vw` (viewport width): `10vw` would be 10% of the viewport's width.
+  - `vh` (viewport height): `3vh` would be 3% of the viewport's height.
+  - `vmin` (viewport minimum): `70vmin` would be 70% of the viewport's smaller dimension (height or width).
+  - `vmax` (viewport maximum): `100vmax` would be 100% of the viewport's bigger dimension (height or width).
+  
+  Here is an example that sets a `body` tag to 30% of the viewport's width.
+  
+  ```css
+  body { width: 30vw; }
+  ```
+
+## CSS Flexbox
+
+- Placing the CSS property `display: flex;` on an element allows you to use other flex properties to build a responsive page.
+
+- Adding `display: flex` to an element turns it into a flex container. This makes it possible to align any children of that element into rows or columns. You do this by adding the `flex-direction` property to the parent item and setting it to row or column. Creating a row will align the children horizontally, and creating a column will align the children vertically.
+  
+  Other options for `flex-direction` are `row-reverse` and `column-reverse`.
+  
+  **Note:** The default value for the `flex-direction` property is `row`.
+
+- Sometimes the flex items within a flex container do not fill all the space in the container. It is common to want to tell CSS how to align and space out the flex items a certain way. Fortunately, the `justify-content` property has several options to do this. But first, there is some important terminology to understand before reviewing those options.
+  
+  <img title="" src="https://raw.githubusercontent.com/yxshi610/images/main/2021/12/26-16-35-48-Screen%20Shot%202021-12-26%20at%2016.35.46.png" alt="Screen Shot 2021-12-26 at 16.35.46.png" data-align="inline">
+  
+  Recall that setting a flex container as a row places the flex items side-by-side from left-to-right. A flex container set as a column places the flex items in a vertical stack from top-to-bottom. For each, the direction the flex items are arranged is called the **main axis**. For a row, this is a horizontal line that cuts through each item. And for a column, the main axis is a vertical line through the items.
+  
+  There are several options for how to space the flex items along the line that is the main axis. One of the most commonly used is `justify-content: center;`, which aligns all the flex items to the center inside the flex container. Other options include:
+  
+  - `flex-start`: aligns items to the start of the flex container. For a row, this pushes the items to the left of the container. For a column, this pushes the items to the top of the container. This is the default alignment if no `justify-content` is specified.
+  - `flex-end`: aligns items to the end of the flex container. For a row, this pushes the items to the right of the container. For a column, this pushes the items to the bottom of the container.
+  - `space-between`: aligns items to the center of the main axis, with extra space placed between the items. The first and last items are pushed to the very edge of the flex container. 
+  - `space-around`: similar to `space-between` but the first and last items are not locked to the edges of the container, the space is distributed around all the items with a half space on either end of the flex container.
+  - `space-evenly`: Distributes space evenly between the flex items with a full space at either end of the flex container
+
+- CSS offers the `align-items` property to align flex items along the cross axis. For a row, it tells CSS how to push the items in the entire row up or down within the container. And for a column, how to push all the items left or right within the container.
+  
+  The different values available for `align-items` include:
+  
+  - `flex-start`: aligns items to the start of the flex container. For rows, this aligns items to the top of the container. For columns, this aligns items to the left of the container.
+  - `flex-end`: aligns items to the end of the flex container. For rows, this aligns items to the bottom of the container. For columns, this aligns items to the right of the container.
+  - `center`: align items to the center. For rows, this vertically aligns items (equal space above and below the items). For columns, this horizontally aligns them (equal space to the left and right of the items).
+  - `stretch`: stretch the items to fill the flex container. For example, rows items are stretched to fill the flex container top-to-bottom. This is the default value if no `align-items` value is specified.
+  - `baseline`: align items to their baselines. Baseline is a text concept, think of it as the line that the letters sit on.
+
+- CSS flexbox has a feature to split a flex item into multiple rows (or columns). By default, a flex container will fit all flex items together. For example, a row will all be on one line.
+  
+  However, using the `flex-wrap` property tells CSS to wrap items. This means extra items move into a new row or column. The break point of where the wrapping happens depends on the size of the items and the size of the container.
+  
+  CSS also has options for the direction of the wrap:
+  
+  - `nowrap`: this is the default setting, and does not wrap items.
+  - `wrap`: wraps items onto multiple lines from top-to-bottom if they are in rows and left-to-right if they are in columns.
+  - `wrap-reverse`: wraps items onto multiple lines from bottom-to-top if they are in rows and right-to-left if they are in columns.
+    
+    ![Screen Shot 2021-12-26 at 16.42.32.png](https://raw.githubusercontent.com/yxshi610/images/main/2021/12/26-16-42-36-Screen%20Shot%202021-12-26%20at%2016.42.32.png)
+
+- When it's used, it allows an item to shrink if the flex container is too small. Items shrink when the width of the parent container is smaller than the combined widths of all the flex items within it.
+  
+  The `flex-shrink` property takes numbers as values. The higher the number, the more it will shrink compared to the other items in the container. For example, if one item has a `flex-shrink` value of `1` and the other has a `flex-shrink` value of `3`, the one with the value of `3` will shrink three times as much as the other.
+  
+  ![Screen Shot 2021-12-26 at 16.43.55.png](https://raw.githubusercontent.com/yxshi610/images/main/2021/12/26-16-43-59-Screen%20Shot%202021-12-26%20at%2016.43.55.png)
+
+- opposite is `flex-grow`
+
+- The `flex-basis` property specifies the initial size of the item before CSS makes adjustments with `flex-shrink` or `flex-grow`.
+  
+  The units used by the `flex-basis` property are the same as other size properties (`px`, `em`, `%`, etc.). The value `auto` sizes items based on the content.
+
+- There is a shortcut available to set several flex properties at once. The `flex-grow`, `flex-shrink`, and `flex-basis` properties can all be set together by using the `flex` property.
+  
+  For example, `flex: 1 0 10px;` will set the item to `flex-grow: 1;`, `flex-shrink: 0;`, and `flex-basis: 10px;`.
+  
+  The default property settings are `flex: 0 1 auto;`.
+
+- The `order` property is used to tell CSS the order of how flex items appear in the flex container. By default, items will appear in the same order they come in the source HTML. The property takes numbers as values, and negative numbers can be used.
+
+- `align-self` allows you to adjust each item's alignment individually, instead of setting them all at once. This is useful since other common adjustment techniques using the CSS properties `float`, `clear`, and `vertical-align` do not work on flex items.
+  
+  `align-self` accepts the same values as `align-items` and will override any value set by the `align-items` property.
+
+## CSS Grid
