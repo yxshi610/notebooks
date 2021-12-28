@@ -1,8 +1,8 @@
 # Responsive Web Design
 
-## Basic HTML and HTML5
-
 https://www.freecodecamp.org/learn/responsive-web-design/
+
+## Basic HTML and HTML5
 
 - At the top of your document, you need to tell the browser which version of HTML your page is using. HTML is an evolving language, and is updated regularly. Most major browsers support the latest specification, which is HTML5. However, older web pages may use previous versions of the language.
   
@@ -74,6 +74,7 @@ https://www.freecodecamp.org/learn/responsive-web-design/
 <form action="/url-where-you-want-to-submit-form-data">
   <input type="text" placeholder="cat photo URL" required>
   <button type="submit">Submit</button>
+// maybe input better
 </form>
 ```
 
@@ -826,7 +827,9 @@ background: linear-gradient(90deg, red, yellow, rgb(204, 204, 255));
   CSS also has options for the direction of the wrap:
   
   - `nowrap`: this is the default setting, and does not wrap items.
+  
   - `wrap`: wraps items onto multiple lines from top-to-bottom if they are in rows and left-to-right if they are in columns.
+  
   - `wrap-reverse`: wraps items onto multiple lines from bottom-to-top if they are in rows and right-to-left if they are in columns.
     
     ![Screen Shot 2021-12-26 at 16.42.32.png](https://raw.githubusercontent.com/yxshi610/images/main/2021/12/26-16-42-36-Screen%20Shot%202021-12-26%20at%2016.42.32.png)
@@ -856,3 +859,211 @@ background: linear-gradient(90deg, red, yellow, rgb(204, 204, 255));
   `align-self` accepts the same values as `align-items` and will override any value set by the `align-items` property.
 
 ## CSS Grid
+
+- Turn any HTML element into a grid container by setting its `display` property to `grid`. This gives you the ability to use all the other properties associated with CSS Grid.
+  
+  **Note:** In CSS Grid, the parent element is referred to as the container and its children are called items.
+
+- You need to define the structure of the grid as well. To add some columns to the grid, use the `grid-template-columns` property on a grid container as demonstrated below:
+  
+  ```css
+  .container {
+    display: grid;
+    grid-template-columns: 50px 50px;
+  }
+  ```
+
+<img title="" src="https://raw.githubusercontent.com/yxshi610/images/main/2021/12/27-14-02-37-Screen%20Shot%202021-12-27%20at%2014.02.34.png" alt="Screen Shot 2021-12-27 at 14.02.34.png" data-align="center">
+
+      same with `grid-template-rows`
+
+- You can use absolute and relative units like `px` and `em` in CSS Grid to define the size of rows and columns. You can use these as well:
+  
+  `fr`: sets the column or row to a fraction of the available space,
+  
+  `auto`: sets the column or row to the width or height of its content automatically,
+  
+  `%`: adjusts the column or row to the percent width of its container.
+  
+  Here's the code that generates the output in the preview:
+  
+  ```css
+  grid-template-columns: auto 50px 10% 2fr 1fr;
+  ```
+
+<img src="https://raw.githubusercontent.com/yxshi610/images/main/2021/12/27-14-05-24-Screen%20Shot%202021-12-27%20at%2014.05.20.png" title="" alt="Screen Shot 2021-12-27 at 14.05.20.png" data-align="center">
+
+- To add a gap between the columns:
+  
+  ```css
+  grid-column-gap: 10px;
+  ```
+  
+  This creates 10px of empty space between all of our columns。
+  
+  same with row.
+
+- If `grid-gap` has one value, it will create a gap between all rows and columns. If there are two values, it will use the first one to set the gap between the rows and the second value for the columns.
+
+- The hypothetical horizontal and vertical lines that create the grid are referred to as lines. These lines are numbered starting with 1 at the top left corner of the grid and move right for columns and down for rows, counting upward. This is what the lines look like for a 3x3 grid:
+  
+  <img src="https://raw.githubusercontent.com/yxshi610/images/main/2021/12/27-14-09-26-Screen%20Shot%202021-12-27%20at%2014.09.23.png" title="" alt="Screen Shot 2021-12-27 at 14.09.23.png" data-align="center">
+  
+  To control the number of columns an item will consume, you can use the `grid-column` property in conjunction with the line numbers you want the item to start and stop at.
+  
+  Here's an example:
+  
+  ```css
+  grid-column: 1 / 3;
+  ```
+  
+  This will make the item start at the first vertical line of the grid on the left and span to the 3rd line of the grid, consuming two columns.
+  
+  same with row.
+
+- In CSS Grid, the content of each item is located in a box which is referred to as a cell. You can align the content's position within its cell horizontally using the `justify-self` property on a grid item. By default, this property has a value of `stretch`, which will make the content fill the whole width of the cell. This CSS Grid property accepts other values as well:
+  
+  `start`: aligns the content at the left of the cell,
+  
+  `center`: aligns the content in the center of the cell,
+  
+  `end`: aligns the content at the right of the cell.
+
+- Just as you can align an item horizontally, there's a way to align an item vertically as well. To do this, you use the `align-self` property on an item. 
+
+- align them all at once horizontally by using `justify-items` on your grid container. same with align.
+
+- You can group cells of your grid together into an area and give the area a custom name. Do this by using `grid-template-areas` on the container like this:
+  
+  ```css
+  grid-template-areas:
+    "header header header"
+    "advert content content"
+    "footer footer footer";
+  ```
+  
+  The code above groups the cells of the grid into four areas; `header`, `advert`, `content`, and `footer`. Every word represents a cell and every pair of quotation marks represent a row.
+
+- After creating an area template for your grid container, as shown in the previous challenge, you can place an item in your custom area by referencing the name you gave it. To do this, you use the `grid-area` property on an item like this:
+  
+  ```css
+  .item1 {
+    grid-area: header;
+  }
+  ```
+
+- If your grid doesn't have an areas template to reference, you can create an area on the fly for an item to be placed like this:
+  
+  ```css
+  item1 { grid-area: 1/1/2/4; }
+  ```
+  
+  This is using the line numbers you learned about earlier to define where the area for this item will be. The numbers in the example above represent these values:
+  
+  ```css
+  grid-area: horizontal line to start at / vertical line to start at / horizontal line to end at / vertical line to end at;
+  ```
+  
+  So the item in the example will consume the rows between lines 1 and 2, and the columns between lines 1 and 4.
+
+- by using the `repeat` function to specify the number of times you want your column or row to be repeated, followed by a comma and the value you want to repeat.
+  
+  Here's an example that would create the 100 row grid, each row at 50px tall.
+  
+  ```css
+  grid-template-rows: repeat(100, 50px);
+  ```
+  
+  You can also repeat multiple values with the repeat function and insert the function amongst other values when defining a grid structure. Here's what that looks like:
+  
+  ```css
+  grid-template-columns: repeat(2, 1fr 50px) 20px;
+  ```
+  
+  This translates to:
+  
+  ```css
+  grid-template-columns: 1fr 50px 1fr 50px 20px;
+  ```
+  
+  **Note:** The `1fr 50px` is repeated twice followed by 20px.
+
+- There's another built-in function to use with `grid-template-columns` and `grid-template-rows` called `minmax`. It's used to limit the size of items when the grid container changes size. To do this you need to specify the acceptable size range for your item. Here is an example:
+  
+  ```css
+  grid-template-columns: 100px minmax(50px, 200px);
+  ```
+  
+  In the code above, `grid-template-columns` is set to create two columns; the first is 100px wide, and the second has the minimum width of 50px and the maximum width of 200px.
+
+- The repeat function comes with an option called auto-fill. This allows you to automatically insert as many rows or columns of your desired size as possible depending on the size of the container. You can create flexible layouts when combining `auto-fill` with `minmax`, like this:
+  
+  ```css
+  repeat(auto-fill, minmax(60px, 1fr));
+  ```
+  
+  When the container changes size, this setup keeps inserting 60px columns and stretching them until it can insert another one. **Note:** If your container can't fit all your items on one row, it will move them down to a new one.
+
+- `auto-fit` works almost identically to `auto-fill`. The only difference is that when the container's size exceeds the size of all the items combined, `auto-fill` keeps inserting empty rows or columns and pushes your items to the side, while `auto-fit` collapses those empty rows or columns and stretches your items to fit the size of the container.
+  
+  **Note:** If your container can't fit all your items on one row, it will move them down to a new one.
+  
+  ![Screen Shot 2021-12-27 at 14.23.04.png](https://raw.githubusercontent.com/yxshi610/images/main/2021/12/27-14-23-08-Screen%20Shot%202021-12-27%20at%2014.23.04.png)
+
+- by setting the `display` and `grid-template-columns` properties of the element with the `item3` class, you create a grid within your grid.
+
+## Responsive Web Design Projects
+
+1. Tribute Page
+- center image:
+
+```css
+img {
+    display: block;
+    margin: auto;
+}
+```
+
+2. Survey Form
+- input
+
+```css
+<label for="n">number:</label>
+<input type="number" id="n" name="n" min="1" max="5">
+# dropdown
+<select id="most-like" name="mostLike" class="form-control" required="">
+  <option disabled="" selected="" value="">Select an option</option>
+  <option value="challenges">Challenges</option>
+  <option value="projects">Projects</option>
+</select>
+<input type="submit" id="submit">
+```
+
+3. Landing Page
+
+4. tech doc
+- code
+
+```html
+<code>var x = 1;</code>
+```
+
+5. personal portfolio
+
+
+
+
+
+
+
+
+
+# Roadmap
+
+https://roadmap.sh/frontend
+
+skip optional at present and maybe skip some history things.
+
+## Internet
+
+a global network of computers connected to each other which communicate through a standardized set of protocols.
