@@ -1,16 +1,16 @@
 #### 小知识点
 
-```c++
+```cpp
 int INF = Integer.MAX_VALUE;
 INT_MAX, INT_MIN.
 g++ main.cpp -W -Wall // add W & Wall not to ignore warning
 -g // debug版本 vs. release版本
--O2	// release开个优化
+-O2    // release开个优化
 ```
 
 #### BASIC KNOWLEDGE
 
-```C++
+```cpp
 1. stdin & stdout;
 In C++, you can read a single whitespace-separated token of input using cin, and print output to stdout using cout;
 2. basic data types;
@@ -19,7 +19,7 @@ Long ("%ld"): 64 bit integer
 Char ("%c"): Character type
 Float ("%f"): 32 bit real value
 Double ("%lf"): 64 bit real value
-  
+
 To read a data type, use the following syntax:
 scanf("`format_specifier`", &val);
 
@@ -40,10 +40,7 @@ cout precison: cout << fixed << setprecision(6) << ans[i] << endl;
 ```c++
 // 本质： 两段性质的划分（两个边界点）
 ** 如果用到left = mid， 则mid需要加一！！
-
 ```
-
-
 
 #### 排序
 
@@ -57,9 +54,9 @@ cout precison: cout << fixed << setprecision(6) << ans[i] << endl;
 #### operator 运算符
 
 ```c++
-a=++i；	//i=i+1; a=i;
-b=j++;	//b=j; j=j+1;
-a[index--]='0';	//1. 赋0 2. index--
+a=++i；    //i=i+1; a=i;
+b=j++;    //b=j; j=j+1;
+a[index--]='0';    //1. 赋0 2. index--
 
 //magic code
 static const auto __=[](){
@@ -137,18 +134,18 @@ public:
 
 #### vector
 
-```c++
-vec.push_back(i);	//在表尾添加元素
+```cpp
+vec.push_back(i);    //在表尾添加元素
 // O(1)操作，但触发扩容就是O(N)
-vec.pop_back();	//在表尾删除元素
-vector<bool> vec(x, false);	//初始化x个元素的bool向量
-vector<int> vec={x1,x2,x3};	//初始化vector数组
+vec.pop_back();    //在表尾删除元素
+vector<bool> vec(x, false);    //初始化x个元素的bool向量
+vector<int> vec={x1,x2,x3};    //初始化vector数组
 vector<vector<int>> ans(r, vector<int>(c)); //初始化r*c二维数组
-sums.resize(m + 1, vector<int>(n + 1));		//resize二维数组
+sums.resize(m + 1, vector<int>(n + 1));        //resize二维数组
 fill(visited.begin(), visited.end(), false); //重新赋值
-res.push_back(vector<int>(i+1,1));	//也可以直接用
-ret.insert(ret.end(),temp.begin(),temp.end());	//数组后面插入数组
-sort(nums.begin(), nums.end());	//排序
+res.push_back(vector<int>(i+1,1));    //也可以直接用
+ret.insert(ret.end(),temp.begin(),temp.end());    //数组后面插入数组
+sort(nums.begin(), nums.end());    //排序
 int x=nums.back(); //最后一个
 
 // 迭代器插入, begin()是0号元素, begin()+2, 插在第3位
@@ -157,17 +154,17 @@ auto it=ivec.begin()+2;
 ivec.insert(it, 100);
 
 bool comp(const int &a, const int &b){return a>b;}
-sort(v.begin(), v.end(), comp);		//条件排序
+sort(v.begin(), v.end(), comp);        //条件排序
 sort(v.begin(), v.end(), [](vector<int> a, vector<int> b){
   return a[1]>b[1];
-});	//lambda表达式
+});    //lambda表达式
 
-for (int e:nums) sum+=e;	//一个快速的求和
+for (int e:nums) sum+=e;    //一个快速的求和
 
 //另一种访问方式, 区别是越界会抛出异常
 int x = ivec.at(0);
 
-vector<char> v(s.begin(), s.end());	//vector to set
+vector<char> v(s.begin(), s.end());    //vector to set
 
 // lower_bound & upper_bound
 std::vector <int> v = {10, 10, 10, 20, 20, 20, 20, 30, 30};
@@ -185,27 +182,27 @@ int minPosition = min_element(v.begin(),v.end()) - v.begin();
 #### string
 
 ```c++
-string str=bitset<32>(n).to_string();	//把n转换成32位字符串
-int x=stoi(s);	//string_to_integer
+string str=bitset<32>(n).to_string();    //把n转换成32位字符串
+int x=stoi(s);    //string_to_integer
 string s = to_string(int/long/...);
 
-if (n[0]=='0') {n=n.substr(1);}	//去掉先导0
-n.substr(1,5);	//从1开始截取5位
-n.insert(0,1,'1');	//在第0位插入一个'1'
-reverse(s.begin(), s.end());			//反转字符串
+if (n[0]=='0') {n=n.substr(1);}    //去掉先导0
+n.substr(1,5);    //从1开始截取5位
+n.insert(0,1,'1');    //在第0位插入一个'1'
+reverse(s.begin(), s.end());            //反转字符串
 
-for (char ch : s){}	//遍历
+for (char ch : s){}    //遍历
 
 //string 的stack用法
 string stk;
 stk.empty();
-(char)stk.back();	// end char
+(char)stk.back();    // end char
 stk.pop_back();
 stk.push_back(ch);
 
 // 删去末尾空格
 while (res.size() and res.back() == ' '){
-	res.pop_back();
+    res.pop_back();
 }
 ```
 
@@ -236,22 +233,22 @@ struct TreeNode {
 
 #### unordered_set
 
-```C++
+```cpp
 //哈希集合
 unordered_set<char> ooc;
 occ.erase(s[i]);
 occ.insert(s[i]);
-occ.find('a');	//查找元素，返回对应元素或/occ.end()
-occ.count('a');	//查找元素个数（0/1）
+occ.find('a');    //查找元素，返回对应元素或/occ.end()
+occ.count('a');    //查找元素个数（0/1）
 //存路径常用
-vector<unordered_set<int>> g(n);	//n是点数
+vector<unordered_set<int>> g(n);    //n是点数
 g[u].insert(v);
-if (g[i].count(j)){}	//有直接相连的边
+if (g[i].count(j)){}    //有直接相连的边
 ```
 
 #### map & unordered_map
 
-```c++
+```cpp
 // map: 内部实现红黑树，自动排序(by key)，空间占用率高, map中存的是pair: first, second(key->value)
 1. mp.size();
 2. mp.insert(pair);
@@ -266,9 +263,9 @@ map.rbegin();  // reverse begin in C++ STL, throws a reverse iterator
 
 //哈希表：key->value, O(1), 5 ops as above
 unordered_map<string,int>mem;
-mem.size();		//key的数量
-if (mem.find(n)!=mem.end){return mem[n]}	//已经计算过
-if (hash.count(t)){}	//不加可能会超时
+mem.size();        //key的数量
+if (mem.find(n)!=mem.end){return mem[n]}    //已经计算过
+if (hash.count(t)){}    //不加可能会超时
 //一个思路：边找边加入而非全部加入再找
 
 //key->set 实现存储多个变量
@@ -286,15 +283,13 @@ for (auto& [_, vec] : mp){}
 //eg. 是否能排课
 //1. BFS
 //用数组记录先修课程，入度为0加入队列，时空O(m+n)
-
-
 ```
 
 #### cmath
 
 ```C++
 //下面都是弧度要*180/M_PI
-double atan2(double y, double x);	//涉及角度相关，值域为[-PI,PI]
+double atan2(double y, double x);    //涉及角度相关，值域为[-PI,PI]
 double atan(double x);
 ```
 
@@ -334,7 +329,7 @@ nums[j]+sum(i,j-1)-dp[i][j-1]
 
 dp的状态函数中间，一个重要的下标是target
 dp的第二个下标一般是状态，分情况讨论转移
-  
+
   1. 背包问题: 2 variables = weight and values, so to get max(dp[N][0-V])
 ```
 
@@ -348,8 +343,8 @@ for (int i=0; i<n; i++){
 }
 // find
 int getf(vector<int>& f, int x) {
-	if (f[x] == x) {return x;}
-	int newf = getf(f, f[x]);
+    if (f[x] == x) {return x;}
+    int newf = getf(f, f[x]);
   f[x] = newf;
   return newf;
 }
@@ -368,23 +363,20 @@ void add(vector<int>& f, int x, int y) {
 // 从vector生成最大堆
 make_heap(piles.begin(), piles.end());
 for (int i = 0; i < k; ++i){
-	// 单次操作：记录并弹出最大值，修改后重新添加进堆
-	pop_heap(piles.begin(), piles.end());
-	piles.back() -= piles.back() / 2;
-	push_heap(piles.begin(), piles.end());
+    // 单次操作：记录并弹出最大值，修改后重新添加进堆
+    pop_heap(piles.begin(), piles.end());
+    piles.back() -= piles.back() / 2;
+    push_heap(piles.begin(), piles.end());
 }
 return accumulate(piles.begin(), piles.end(), 0);
 时间复杂度：O(n+klogn)，其中 n 为 piles 的长度。建堆与计算结果的复杂度为 O(n)；每次弹出最大值与添加新值的时间复杂度为 O(logn)，共需进行 k 次。
-
 ```
-
-
 
 #### 位运算
 
 ```c++
-A[i]^=1;	//异或（翻转）
-int u = (bs[bucket] | (1 << loc));	//或者，移位
+A[i]^=1;    //异或（翻转）
+int u = (bs[bucket] | (1 << loc));    //或者，移位
 ```
 
 #### 线段树
@@ -407,23 +399,11 @@ int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void* (*start_
 
 
 
-电话：(346)438-7736
-
-邮箱：ys98@rice.edu
-
-第三人称自我介绍：
-
-Yuxing Shi is a talented student majoring in Computer Science. After completing her Bachelor's degree in one of the top universities in Nanjing University, she came to the United States to pursue her Master’s degree. Through years of learning, she has built up a basic knowledge of computer science, including computer systems, operating systems, architecture, network and so on. She managed to put that understanding into practice. More than 5,000 of C/C++ codes were written by her, and she is also familiar with languages like Python. Overall, I think that she is fit for this position.
-
-
-
 ## Eigen
 
 ```c++
 
 ```
-
-
 
 ## C
 
@@ -437,4 +417,3 @@ myinteger i;   // is equivalent to    int i;
 mystring s;    // is the same as      char *s;
 myfunc f;      // compile equally as  void (*f)();
 ```
-
