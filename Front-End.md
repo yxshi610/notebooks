@@ -1050,14 +1050,6 @@ img {
 
 5. personal portfolio
 
-
-
-
-
-
-
-
-
 # Roadmap
 
 https://roadmap.sh/frontend
@@ -1067,3 +1059,232 @@ skip optional at present and maybe skip some history things.
 ## Internet
 
 a global network of computers connected to each other which communicate through a standardized set of protocols.
+
+### Where is the Internet
+
+- The last mile: connects homes and small businesses to the internet.
+
+- Data centers: rooms full of servers that store user data and host online apps and content.
+
+- The backbone: consists of long-distance networks — mostly on fiber optic cables — that carry data between data centers and consumers.
+
+### Decentralized network
+
+No one runs the internet. It’s organized as a decentralized network of networks. Thousands of companies, universities, governments, and other entities operate their own networks and exchange traffic with each other based on voluntary interconnection agreements.
+
+### IP Address
+
+Internet Protocol addresses are numbers that computers use to identify each other on the internet.
+
+IPv6: new standard for addresses.
+
+### wireless internet
+
+- Wifi networks use unlicensed spectrum: electromagnetic frequencies that are available for anyone to use without charge. To prevent neighbors’ networks from interfering with each other, there are strict limits on the power (and therefore the range) of wifi networks.
+
+- Cellular networks are more centralized. They work by breaking up the service territory into cells. Each cell has a tower at its center providing services to devices there. Cells are too large to use the unlicensed, low-power spectrum used by wifi networks. Instead, cellular networks use spectrum licensed for their exclusive use.
+
+### Packet
+
+A packet is the basic unit of information transmitted over the internet. Splitting information up into small, digestible pieces allows the network’s capacity to be used more efficiently.
+
+- header: information that helps the packet get to its destination, including the length of the packet, its source and destination, and a checksum value that helps the recipient detect if a packet was damaged in transit.
+
+- data: contain up to 64 kilobytes of data.
+
+If internet routers experience congestion or other technical problems, they are allowed to deal with it by simply discarding packets. It’s the sending computer’s responsibility to detect that a packet didn’t reach its destination and send another copy.
+
+### Web
+
+- The World Wide Web is a popular way to publish information on the internet.
+
+- A web browser is a computer program that allows users to download and view websites.
+
+### SSL
+
+SSL, short for Secure Sockets Layer, is a family of encryption technologies that allows web users to protect the privacy of information they transmit over the internet.
+
+That lock beside URL is supposed to signal that third parties won't be able to read any information you send or receive. Under the hood, SSL accomplishes that by transforming your data into a coded message that only the recipient knows how to decipher.
+
+### DNS
+
+The Domain Name System (DNS) is the reason you can access Vox by typing vox.com into your browser rather than a hard-to-remember numeric address such as 216.146.46.10.
+
+The system is hierarchical. For example, the .com domain is administered by a company called Verisign. Verisign assigns sub-domains like google.com and vox.com. Owners of these second-level domains, in turn, can create sub-domains such as mail.google.com and maps.google.com.
+
+The domain name system is administered by the Internet Corporation for Assigned Names and Numbers (ICANN), a non-profit organization based in California.
+
+- generic top-level domains (gTLDs) such as .com, .edu, .org, and .gov. 
+
+- country-code top-level domains (ccTLDs). Each country in the world has its own 2-letter code. For example, the ccTLD for the United States is .us, Great Britain’s is .uk, and China’s is .cn. These domains are administered by authorities in each country. 
+
+### How does the Internet work
+
+If you connect to the Internet through an Internet Service Provider (ISP), you are usually assigned a temporary IP address for the duration of your dial-in session. If you connect to the Internet from a local area network (LAN) your computer might have a permanent IP address or it might obtain a temporary one from a DHCP (Dynamic Host Configuration Protocol) server. In any case, if you are connected to the Internet, your computer has a unique IP address.
+
+- The Ping Program: to see if a computer on the Internet is alive. ping www.yahoo.com. The ping program will send a 'ping' (actually an ICMP (Internet Control Message Protocol) echo request message) to the named computer. The pinged computer will respond with a reply. The ping program will count the time expired until the reply comes back (if it does). Also, if you enter a domain name (i.e. www.yahoo.com) instead of an IP address, ping will resolve the domain name and display the computer's IP address.
+
+- protocol stack: Every computer needs one to communicate on the Internet and it is usually built into the computer's operating system. The protocol stack used on the Internet is refered to as the TCP/IP protocol stack because of the two major communication protocols used. The TCP/IP stack looks like this:  
+  
+  | Protocol Layer                      | Comments                                                                                                              |
+  | ----------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+  | Application Protocols Layer         | Protocols specific to applications such as WWW, e-mail, FTP, etc.                                                     |
+  | Transmission Control Protocol Layer | TCP directs packets to a specific application on a computer using a port number.                                      |
+  | Internet Protocol Layer             | IP directs packets to a specific computer using an IP address.                                                        |
+  | Hardware Layer                      | Converts binary packet data to network signals and back.<br>(E.g. ethernet network card, modem for phone lines, etc.) |
+  
+  ![Screen Shot 2021-12-28 at 23.02.04.png](https://raw.githubusercontent.com/yxshi610/images/main/2021/12/28-23-02-09-Screen%20Shot%202021-12-28%20at%2023.02.04.png)
+  
+  If the message to be sent is long, each stack layer that the message passes through may break the message up into smaller chunks of data. This is because data sent over the Internet (and most computer networks) are sent in manageable chunks. On the Internet, these chunks of data are known as **packets**.
+  
+  The packets would go through the Application Layer and continue to the TCP layer. Each packet is assigned a **port number**. We need to know which program on the destination computer needs to receive the message because it will be listening on a specific port.
+  
+  After going through the TCP layer, the packets proceed to the IP layer. This is where each packet receives it's destination address, 5.6.7.8.
+  
+  The hardware layer takes care of turning our packets containing the alphabetic text of our message into electronic signals and transmitting them over the phone line.
+  
+  On the other end of the phone line your ISP has a direct connection to the Internet. The ISPs **router** examines the destination address in each packet and determines where to send it. Often, the packet's next stop is another router.
+  
+  go up and stipe headers and re-assembled.
+
+#### Networking Infrastructure
+
+![](http://web.stanford.edu/class/msande91si/www-spr04/readings/week1/InternetWhitepaper_files/ruswp_diag3.gif)
+
+The ISP maintains a pool of modems for their dial-in customers. This is managed by some form of computer (usually a dedicated one) which controls data flow from the modem pool to a backbone or dedicated line router. This setup may be referred to as a port server, as it 'serves' access to the network. Billing and usage information is usually collected here as well.
+
+After your packets traverse the phone network and your ISP's local equipment, they are routed onto the ISP's backbone or a backbone the ISP buys bandwidth from. 
+
+**traceroute** and it shows the path your packets are taking to a given Internet destination. Like ping, you must use traceroute from a command prompt. type `traceroute www.yahoo.com`. will print out a list of all the routers, computers, and any other Internet entities that your packets must travel through to get to their destination.
+
+#### Internet Infrastructure
+
+The Internet backbone is made up of many large networks which interconnect with each other. These large networks are known as **Network Service Providers** or **NSP**s. These networks **peer** with each other to exchange packet traffic. Each NSP is required to connect to three **Network Access Points** or **NAP**s. At the NAPs, packet traffic may jump from one NSP's backbone to another NSP's backbone. NSPs also interconnect at **Metropolitan Area Exchanges** or **MAE**s. MAEs serve the same purpose as the NAPs but are privately owned. Both NAPs and MAEs are referred to as Internet Exchange Points or **IX**s. NSPs also sell bandwidth to smaller networks, such as ISPs and smaller bandwidth providers. 
+
+![](http://web.stanford.edu/class/msande91si/www-spr04/readings/week1/InternetWhitepaper_files/ruswp_diag4.gif)
+
+#### Routing
+
+**Routers are packet switches.** A router is usually connected between networks to route packets between them. Each router knows about it's sub-networks and which IP addresses they use. The router usually doesn't know what IP addresses are 'above' it.
+
+![](http://web.stanford.edu/class/msande91si/www-spr04/readings/week1/InternetWhitepaper_files/ruswp_diag5.gif)
+
+When a packet arrives at a router, the router examines the IP address put there by the IP protocol layer on the originating computer. The router checks it's routing table. If the network containing the IP address is found, the packet is sent to that network. If the network containing the IP address is not found, then the router sends the packet on a default route, usually up the backbone hierarchy to the next router. Hopefully the next router will know where to send the packet. If it does not, again the packet is routed upwards until it reaches a NSP backbone. The routers connected to the NSP backbones hold the largest routing tables and here the packet will be routed to the correct backbone, where it will begin its journey 'downward' through smaller and smaller networks until it finds it's destination.
+
+#### Domain Name Service or DNS
+
+The DNS is a **distributed**** database which keeps track of computer's names and their corresponding IP addresses on the Internet.
+
+![](http://web.stanford.edu/class/msande91si/www-spr04/readings/week1/InternetWhitepaper_files/ruswp_diag6.gif)
+
+The Domain Name Service is structured as a hierarchy similar to the IP routing hierarchy. The computer requesting a name resolution will be re-directed 'up' the hierarchy until a DNS server is found that can resolve the domain name in the request. 
+
+When an Internet connection is setup (e.g. for a LAN or Dial-Up Networking in Windows), one primary and one or more secondary DNS servers are usually specified as part of the installation. This way, any Internet applications that need domain name resolution will be able to function correctly. For example, when you enter a web address into your web browser, the browser first connects to your primary DNS server. After obtaining the IP address for the domain name you entered, the browser then connects to the target computer and requests the web page you wanted.
+
+#### Internet Protocols
+
+- Application Protocols: HTTP and the World Wide Web
+  
+  One of the most commonly used services on the Internet is the World Wide Web (WWW). The application protocol that makes the web work is **Hypertext Transfer Protocol** or **HTTP**. is used by specific applications to talk to one another. In this case the applications are web browsers and web servers.
+  
+  HTTP is a connectionless text based protocol. Clients (web browsers) send requests to web servers for web elements such as web pages and images. After the request is serviced by a server, the connection between client and server across the Internet is disconnected. A new connection must be made for each request. Most protocols are connection oriented. 
+  
+  When you type a URL into a web browser:
+  
+  1. If the URL contains a domain name, the browser first connects to a domain name server and retrieves the corresponding IP address for the web server.
+  2. The web browser connects to the web server and sends an HTTP request (via the protocol stack) for the desired web page.
+  3. The web server receives the request and checks for the desired page. If the page exists, the web server sends it. If the server cannot find the requested page, it will send an HTTP 404 error message. (404 means 'Page Not Found' as anyone who has surfed the web probably knows.)
+  4. The web browser receives the page back and the connection is closed.
+  5. The browser then parses through the page and looks for other page elements it needs to complete the web page. These usually include images, applets, etc.
+  6. For each element needed, the browser makes additional connections and HTTP requests to the server for each element.
+  7. When the browser has finished loading all images, applets, etc. the page will be completely loaded in the browser window.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# React
+
+## Deploying to GitHub Pages
+
+```shell
+npx create-react-app app-name
+cd app-name
+npm install gh-pages --save-dev
+```
+
+`package.json` file:
+
+- At the top level, add a `homepage` property: 
+
+```js
+//... same level with name and vesion
+"homepage": "http://{username}.github.io/{repo-name}"
+```
+
+- add a `predeploy` property and a `deploy` property, each having the values shown below:
+
+```js
+"scripts": {
+ //...
+ "predeploy": "npm run build",
+ "deploy": "gh-pages -d build"
+}
+```
+
+```shell
+git init
+git remote add origin https://github.com/yxshi610/characters.git
+npm run deploy    // accessible through URL
+```
+
+- optionally commit to "master" branch
+
+```shell
+git add .
+git commit -m "Create a React app and publish it to GitHub Pages"
+git push origin master
+```
+
+the `master` branch held the source code, and the `gh-pages` branch held the *built* app code.
+
+Problem: GitHub Pages doesn't natively support single page apps. When there is a fresh page load for a url like `example.tld/foo`, where `/foo` is a frontend route, the GitHub Pages server returns 404 because it knows nothing of `/foo`.
+
+Solution: https://github.com/rafgraph/spa-github-pages
+
+change to Surge: 
+
+```shell
+npm run build
+cd build
+cp index.html 200.html
+surge
+```
