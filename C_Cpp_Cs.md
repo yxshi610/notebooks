@@ -1,4 +1,4 @@
-# CPP
+# Cpp
 
 #### 小知识点
 
@@ -36,6 +36,18 @@ can use cin and cout but will be faster using scanf and printf especially for la
 
 cout precison: cout << fixed << setprecision(6) << ans[i] << endl;
 ```
+
+- auto
+  
+  The **`auto`** keyword is a simple way to declare a variable that has a complicated type. The **`auto`** keyword is a placeholder for a type, but it is not itself a type.
+
+- inline
+  
+  节省调用开销，便于编译器和上下文配合做优化
+
+- const
+  
+  修饰类成员函数，其目的是防止成员函数修改被调用对象的值，如果我们不想修改一个调用对象的值，所有的成员函数都应当声明为 const 成员函数。
 
 ## Classes
 
@@ -89,10 +101,33 @@ int main() {
 ```
 
 - `public` - members are accessible from outside the class
+
 - `private` - members cannot be accessed (or viewed) from outside the class
+
 - `protected` - members cannot be accessed from outside the class, however, they can be accessed in inherited classes. 
   
   **Note:** By default, all members of a class are `private` if you don't specify an access specifier. Good practice to keep variables private, and make set & get methods.
+
+```cpp
+// static in .h
+class Vector3 {
+public:
+    static double Dot(Vector3 x, Vector3 y);
+}
+// static in .cpp
+double Vector3::Dot(Vector3 x, Vector3 y) {
+    return x._x * y._x + x._y * y._y + x._z * y._z;
+}
+// use in .cpp
+auto a = Vector3::Dot(x, y);
+
+//operator in .h
+Vector3 operator - (Vector3 &second) {
+    Vector3 res;
+    res.set(_x - second.x(), _y - second.y(), _z - second.z());
+    return res;
+}
+```
 
 ### Inheritance
 
@@ -131,6 +166,76 @@ class MyChildClass: public MyClass, public MyOtherClass {
 };
 ```
 
+- virtual function (虚函数)
+
+```cpp
+class Parent  {      
+public:  
+    char data[20];  
+    void Function1();     
+    virtual void Function2();   // 这里声明Function2是虚函数  
+}parent;  
+
+void Parent::Function1()  {  
+    printf("This is parent,function1\n");  
+}  
+
+void Parent::Function2()  {  
+    printf("This is parent,function2\n");  
+}  
+
+class Child:public Parent  {  
+    void Function1();  
+    void Function2();  
+} child;  
+
+void Child::Function1()  {  
+    printf("This is child,function1\n");  
+}  
+
+void Child::Function2()  {  
+    printf("This is child,function2\n");  
+}  
+
+int main(int argc, char* argv[])  {  
+    Parent *p;  // 定义一个基类指针  
+    if(_getch()=='c')     // 如果输入一个小写字母c      
+        p=&child;         // 指向继承类对象  
+    else      
+        p=&parent;       // 否则指向基类对象  
+    p->Function1();   // 这里在编译时会直接给出Parent::Function1()的入口地址。      
+    p->Function2();    // 注意这里，执行的是哪一个Function2？  
+    return 0;  
+}  
+/*
+c: parent function1, child function2
+!c: parent function1, parent function2
+*/
+```
+
+### iostream
+
+In C++ input and output are performed in the form of a sequence of bytes or more commonly known as **streams**.
+
+- **Input Stream:** If the direction of flow of bytes is from the device(for example, Keyboard) to the main memory then this process is called input.
+- **Output Stream:** If the direction of flow of bytes is opposite, i.e. from main memory to device( display screen ) then this process is called output.
+
+iostream stands for standard input-output stream. This header file contains definitions of objects like cin, cout, cerr, etc.
+
+- **Standard output stream (cout)**: Usually the standard output device is the display screen. The C++ **cout** statement is the instance of the ostream class. The data needed to be displayed on the screen is inserted in the standard output stream (cout) using the insertion operator(**<<**).
+- **standard input stream (cin)**: Usually the input device in a computer is the keyboard. C++ cin statement is the instance of the class **istream**.
+  The extraction operator(**>>**) is used along with the object **cin** for reading inputs. The extraction operator extracts the data from the object **cin** which is entered using the keyboard.
+
+```cpp
+void write_color(std::ostream &out, Vector3 pixel_color) {
+    out << static_cast<int>(255.999 * pixel_color.x()) << ' '
+        << static_cast<int>(255.999 * pixel_color.y()) << ' '
+        << static_cast<int>(255.999 * pixel_color.z()) << '\n';
+}
+
+write_color(std::cout, pixel_color);
+```
+
 ### header file
 
 Consider the following program:
@@ -163,9 +268,7 @@ Header guards are conditional compilation directives that take the following for
 
 For class: put declaration in .h and definition in .cpp (outside with `#include "MyClass.h"` and scope ::)
 
-
-
-
+#### 
 
 #### 二分
 
@@ -233,9 +336,26 @@ NumArray* obj=new NumArray(nums);
 obj->update(index, val);
 ```
 
-#### queue
+## Data structure
 
-```c++
+### shared_ptr
+
+`shared_ptr<type>` is a pointer to some allocated type, with reference-counting semantics. Every time you assign its value to another shared pointer (usually with a simple assignment), the reference count is incremented. As shared pointers go out of scope (like at the end of a block or function), the reference count is decremented. Once the count goes to zero, the object is deleted.
+
+Typically, a shared pointer is first initialized with a newly-allocated object, something like this:
+
+```cpp
+#include <memory>
+shared_ptr<double> double_ptr = make_shared<double>(0.37);
+shared_ptr<vec3>   vec3_ptr   = make_shared<vec3>(1.414214, 2.718281, 1.618034);
+shared_ptr<sphere> sphere_ptr = make_shared<sphere>(point3(0,0,0), 1.0);
+// or simplified
+auto double_ptr = make_shared<double>(0.37);
+```
+
+### queue
+
+```cpp
 queue<TreeNode*> que;
 while (!que.empty())
 int num = que.size();
@@ -270,6 +390,7 @@ public:
 vec.push_back(i);    //在表尾添加元素
 // O(1)操作，但触发扩容就是O(N)
 vec.pop_back();    //在表尾删除元素
+vec.erase(vec.begin() + 1); //index = 1
 vector<bool> vec(x, false);    //初始化x个元素的bool向量
 vector<int> vec={x1,x2,x3};    //初始化vector数组
 vector<vector<int>> ans(r, vector<int>(c)); //初始化r*c二维数组
