@@ -49,6 +49,14 @@ cout precison: cout << fixed << setprecision(6) << ans[i] << endl;
   
   修饰类成员函数，其目的是防止成员函数修改被调用对象的值，如果我们不想修改一个调用对象的值，所有的成员函数都应当声明为 const 成员函数。
 
+#### 命名规范
+
+1. 类名：MyClass
+
+2. 变量一律小写，下划线连接，类中成员变量以下划线结尾：`string table_name, class TableInfo{ private: string table_name_ }`
+
+3. const/constexpr. start with k. `const int kDaysInAWeek = 7;`
+
 ## Classes
 
 - OOP: Object-Oriented Programming
@@ -268,7 +276,91 @@ Header guards are conditional compilation directives that take the following for
 
 For class: put declaration in .h and definition in .cpp (outside with `#include "MyClass.h"` and scope ::)
 
-#### 
+Notes: 不要在.h头文件中放定义，否则若其被两个或两个以上的.cpp文件包含的话会报错，因为声明可以很多次，但定义只能有一次！除非：
+
+1. const对象默认没有extern的声明，只对当前引用的.cpp文件有效，同理static普通变量和普通函数（不包括static成员函数和成员变量
+
+2. 可以写内联函数（inline）的定义，inline在编译器在遇到的时候根据定义内联展开，因此把inline定义放在头文件比较明智
+
+3. 可以写class的定义，要求与inline基本一致。数据成员是要等到具体的对象被创建时才会被定义（分配空间），但函数成员是在一开始就被定义的。一般做法是把类的定义放在头文件中，把函数成员的实现放在cpp中。C++中类的实现：函数成员在类的定义体中被定义，会被编译器视为inline。注意：把函数成员写在头文件但没写在类定义中不合法，因为非inline了
+
+#### Lambda 表达式
+
+Lambda 表达式的基本语法如下：
+
+```cpp
+[capture list] (parameter list) mutable(optional) exception attribute -> return type {
+    //function body
+}
+```
+
+capture list can be understood as a type of parameter and can can serve to transfer external data. The internal function body of a lambda expression cannot use variables outside the body of the function by default. 
+
+1. **Value capture**
+
+the variable can be copied, except that the captured variable **is copied when the lambda expression is created**, not when it is called:
+
+```cpp
+void lambda_value_capture() {  
+ int value = 1;  
+ auto copy_value = [value] {  
+     return value;  
+ };  
+ value = 100;  
+ auto stored_value = copy_value();  
+ std::cout << "stored_value = " << stored_value << std::endl;  
+ // At this moment, stored_value == 1, and value == 100.  
+ // Because copy_value has copied when it was created.  
+}
+```
+
+2. **Reference capture**
+
+Similar to a reference pass, the reference capture saves the reference and the value will change.
+
+```cpp
+void lambda_reference_capture() {  
+ int value = 1;  
+ auto copy_value = [&value] {  
+ return value;  
+ };  
+ value = 100;  
+ auto stored_value = copy_value();  
+ std::cout << "stored_value = " << stored_value << std::endl;  
+ // At this moment, stored_value == 100, value == 100.  
+ // Because copy_value stores reference  
+}
+```
+
+3. **Implicit capture**
+
+Manually writing a capture list is sometimes very complicated. This mechanical work can be handled by the compiler. At this point, you can write a `&` (ampersand) or `=` to the compiler to declare the reference or value capture.
+
+The four most common forms of capture lists can be:
+
+- [] empty capture list
+- [name1, name2, ...] captures a series of variables
+- [&] reference capture, let the compiler deduce the reference list by itself
+- [=] value capture, let the compiler deduce the value list by itself
+4. **Expression capture**
+
+```cpp
+#include <iostream>  
+#include <memory> // std::make_unique  
+#include <utility> // std::move
+
+void lambda_expression_capture() {  
+ auto important = std::make_unique<int>(1);  
+ auto add = [v1 = 1, v2 = std::move(important)](int x, int y) -> int {  
+     return x+y+v1+(*v2);  
+ };  
+ std::cout << add(3,4) << std::endl;  
+}
+```
+
+前几个都是捕获左值，通过允许捕获的成员用任意的表达式进行初始化，就允许了右值的捕获。
+
+In the above code, `important` is an exclusive pointer that cannot be caught by value capture using `=`. At this time we need to transfer it to the rvalue and initialize it in the expression.
 
 #### 二分
 
@@ -336,21 +428,57 @@ NumArray* obj=new NumArray(nums);
 obj->update(index, val);
 ```
 
-## Data structure
+## 智能指针与内存管理
+
+引用计数：增加一次对同一个对象的引用，引用对象的引用计数+1， 每删除一次引用，引用计数-1，引用计数减为零时，就自动删除指向的堆内存。
+
+C++11 引入了智能指针的概念，使用了引用计数的想法，不再需要关心手动释放内存。 这些智能指针就包括 `std::shared_ptr`/`std::unique_ptr`/`std::weak_ptr`，使用它们需要包含头文件 `<memory>`。
 
 ### shared_ptr
 
-`shared_ptr<type>` is a pointer to some allocated type, with reference-counting semantics. Every time you assign its value to another shared pointer (usually with a simple assignment), the reference count is incremented. As shared pointers go out of scope (like at the end of a block or function), the reference count is decremented. Once the count goes to zero, the object is deleted.
+`std::shared_ptr` 是一种智能指针，它能够记录多少个 `shared_ptr` 共同指向一个对象，从而消除显式的调用 `delete`，当引用计数变为零的时候就会将对象自动删除。
 
-Typically, a shared pointer is first initialized with a newly-allocated object, something like this:
+但还不够，因为使用 `std::shared_ptr` 仍然需要使用 `new` 来调用，这使得代码出现了某种程度上的不对称。
+
+`std::make_shared` 就能够用来消除显式的使用 `new`，所以`std::make_shared` 会分配创建传入参数中的对象， 并返回这个对象类型的`std::shared_ptr`指针。
 
 ```cpp
+#include <iostream>
 #include <memory>
-shared_ptr<double> double_ptr = make_shared<double>(0.37);
-shared_ptr<vec3>   vec3_ptr   = make_shared<vec3>(1.414214, 2.718281, 1.618034);
-shared_ptr<sphere> sphere_ptr = make_shared<sphere>(point3(0,0,0), 1.0);
-// or simplified
-auto double_ptr = make_shared<double>(0.37);
+void foo(std::shared_ptr<int> i) {
+    (*i)++;
+}
+int main() {
+    // Constructed a std::shared_ptr
+    auto pointer = std::make_shared<int>(10);
+    foo(pointer);
+    std::cout << *pointer << std::endl; // 11
+    // The shared_ptr will be destructed before leaving the scope
+    return 0;
+}
+```
+
+`std::shared_ptr` 可以通过 `get()` 方法来获取原始指针，通过 `reset()` 来减少一个引用计数， 并通过`use_count()`来查看一个对象的引用计数。例如：
+
+```cpp
+auto pointer = std::make_shared<int>(10);
+auto pointer2 = pointer; // 引用计数+1
+auto pointer3 = pointer; // 引用计数+1
+int *p = pointer.get(); // 这样不会增加引用计数
+std::cout << "pointer.use_count() = " << pointer.use_count() << std::endl; // 3
+std::cout << "pointer2.use_count() = " << pointer2.use_count() << std::endl; // 3
+std::cout << "pointer3.use_count() = " << pointer3.use_count() << std::endl; // 3
+
+pointer2.reset();
+std::cout << "reset pointer2:" << std::endl;
+std::cout << "pointer.use_count() = " << pointer.use_count() << std::endl; // 2
+std::cout << "pointer2.use_count() = " << pointer2.use_count() << std::endl; // 0, pointer2 已 reset
+std::cout << "pointer3.use_count() = " << pointer3.use_count() << std::endl; // 2
+pointer3.reset();
+std::cout << "reset pointer3:" << std::endl;
+std::cout << "pointer.use_count() = " << pointer.use_count() << std::endl; // 1
+std::cout << "pointer2.use_count() = " << pointer2.use_count() << std::endl; // 0
+std::cout << "pointer3.use_count() = " << pointer3.use_count() << std::endl; // 0, pointer3 已 reset
 ```
 
 ### queue
@@ -383,6 +511,19 @@ public:
     }
 };
 ```
+
+#### regex
+
+Consider a regular expression that matches an MS-DOS filename as shown below.
+
+```cpp
+char regex_filename[] = 
+“[a-zA-Z_] [a-zA-Z_0-9]*\\.[a-zA-Z0-9]+”;
+```
+
+**The above regex can be interpreted as follows:**
+
+Match a letter (lowercase and then uppercase) or an underscore. Then match zero or more characters, in which each may be a letter, or an underscore or a digit. Then match a literal dot (.). After the dot, match one or more characters, in which each may be a letter or digit indicating file extension.
 
 #### vector
 
@@ -417,6 +558,12 @@ for (int e:nums) sum+=e;    //一个快速的求和
 //另一种访问方式, 区别是越界会抛出异常
 int x = ivec.at(0);
 
+// iota, fill will ascending.
+iota(index.begin(), index.end(), 0);
+sort(index.begin(), index.end(), [&](int x, int y){
+    return g[x] > g[y];
+});
+
 vector<char> v(s.begin(), s.end());    //vector to set
 
 // lower_bound & upper_bound
@@ -432,9 +579,17 @@ std::cout << "upper_bound at position " << (up - v.begin()) << '\n';// 7
 int minPosition = min_element(v.begin(),v.end()) - v.begin();
 ```
 
+- `emplace_back()`和`push_back()`的区别
+
+push_back() 在底层实现时，会优先选择调用移动构造函数，如果没有才会调用拷贝构造函数。emplace_back() 的执行效率比 push_back() 高。
+
+#### 单链表
+
+用e[N]和ne[N]开数组来模拟，head表示头节点的下标，idx存储当前已经用到哪个节点。用数组模拟静态链表会比new快很多。
+
 #### string
 
-```c++
+```cpp
 string str=bitset<32>(n).to_string();    //把n转换成32位字符串
 int x=stoi(s);    //string_to_integer
 string s = to_string(int/long/...);
@@ -457,11 +612,18 @@ stk.push_back(ch);
 while (res.size() and res.back() == ' '){
     res.pop_back();
 }
+
+//delimeter example
+while ((pos = s.find(delimiter)) != std::string::npos) {
+    token = s.substr(0, pos);
+    std::cout << token << std::endl;
+    s.erase(0, pos + delimiter.length());
+}
 ```
 
 #### stack
 
-```c++
+```cpp
 stack<char> stk;
 stk.size();
 stk.top();
@@ -470,9 +632,15 @@ stk.push();
 stk.empty();
 ```
 
+#### 单调栈
+
+问题类型：下一个更大元素. 从右往左遍历.
+
+![Screen Shot 2022-01-05 at 23.41.37.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/01/05-23-41-39-Screen%20Shot%202022-01-05%20at%2023.41.37.png)
+
 #### Tree
 
-```c++
+```cpp
 //层次遍历分层思路：外循环层次+内循环节点
 struct TreeNode {
     int val;
@@ -483,6 +651,18 @@ struct TreeNode {
 
 // height-balanced tree: a binary tree in which the left and right subtrees of every node differ in height by no more than 1.
 ```
+
+基环树：树加一条边成环，本质是个图
+
+基环内向树：有向图，每个点都有且只有一个出度，且环外节点方向指向环内。
+
+<img title="" src="https://raw.githubusercontent.com/yxshi610/images/main/2022/01/02-20-44-14-Screen%20Shot%202022-01-02%20at%2020.44.12.png" alt="Screen Shot 2022-01-02 at 20.44.12.png" width="238" data-align="inline">
+
+基环外向树：同上但环上节点指向环外。
+
+#### unordered associative container
+
+sometimes need to provide own hasher to work. especially when key is vector. use map directly.
 
 #### unordered_set
 
@@ -518,25 +698,28 @@ map.rbegin();  // reverse begin in C++ STL, throws a reverse iterator
 unordered_map<string,int>mem;
 mem.size();        //key的数量
 if (mem.find(n)!=mem.end){return mem[n]}    //已经计算过
+// important!!
 if (hash.count(t)){}    //不加可能会超时
 //一个思路：边找边加入而非全部加入再找
+hash.clear();
 
 //key->set 实现存储多个变量
 unordered_map<int, vector<int>> mp;
 //遍历哈希表
 for (auto& [_, vec] : mp){}
+for (auto it : freq) {
+    if (it.second == k) res.emplace_back(it.first);
+}
 ```
 
-#### Topological Sort
+#### Topological Sort (拓扑排序)
 
-```c++
-//拓扑排序
-//有向图的拓扑排序是其顶点的线性排序，使得对于从顶点u到顶点v的每个有向边uv，u在排序中都在v之前
-//有向无环图（DAG）=》拓扑排序
-//eg. 是否能排课
-//1. BFS
-//用数组记录先修课程，入度为0加入队列，时空O(m+n)
-```
+有向图的拓扑排序是其顶点的线性排序，使得对于从顶点u到顶点v的每个有向边uv，u在排序中都在v之前
+有向无环图（DAG）=》拓扑排序
+eg. 是否能排课
+
+1. BFS
+   用数组记录先修课程，入度为0加入队列，时空O(m+n)
 
 #### cmath
 
