@@ -480,3 +480,53 @@ const ChildComponent = () => {
   );
 };
 ```
+
+React components are passed into `ReactDOM.render()` a little differently than JSX elements. For JSX elements, you pass in the name of the element that you want to render. However, for React components, you need to use the same syntax as if you were rendering a nested component, for example `ReactDOM.render(<ComponentToRender />, targetNode)`. You use this syntax for both ES6 class components and functional components.
+
+```javascript
+ReactDOM.render(<TypesOfFood />, document.getElementById("challenge-node"))
+```
+
+a typical React component is an ES6 `class` which extends `React.Component`. It has a render method that returns HTML (from JSX) or `null`.
+
+**Pass Props to a Stateless Functional Component**
+
+```jsx
+<App>
+  <Welcome user='Mark' />
+</App>
+
+const Welcome = (props) => <h1>Hello, {props.user}!</h1>
+```
+
+Note that for `prop` values to be evaluated as JavaScript, they must be enclosed in curly brackets, for instance `date={Date()}`.
+
+`MyComponent.defaultProps = { location: 'San Francisco' }`, you have defined a location prop that's set to the string `San Francisco`, unless you specify otherwise. React assigns default props if props are undefined.
+
+You can set `propTypes` on your component to require the data to be of type `array`. 
+
+```js
+MyComponent.propTypes = { handleClick: PropTypes.func.isRequired }
+```
+
+In the example above, the `PropTypes.func` part checks that `handleClick` is a function. Adding `isRequired` tells React that `handleClick` is a required property for that component.
+
+**Note:** As of React v15.5.0, `PropTypes` is imported independently from React, like this: `import PropTypes from 'prop-types';`
+
+#### ES6 class component
+
+Anytime you refer to a class component within itself, you use the `this` keyword. To access props within a class component, you preface the code that you use to access it with `this`. For example, if an ES6 class component has a prop called `data`, you write `{this.props.data}` in JSX.
+
+A *stateless functional component* is any function you write which accepts props and returns JSX. A *stateless component*, on the other hand, is a class that extends `React.Component`, but does not use internal state. a *stateful component* is a class component that does maintain its own internal state. You may see stateful components referred to simply as components or React components. A common pattern is to try to **minimize statefulness** and to create stateless functional components wherever possible. This helps contain your state management to a specific area of your application.
+
+#### Stateful Component
+
+You create state in a React component by declaring a `state` property on the component class in its `constructor`. This initializes the component with `state` when it is created. The `state` property must be set to a JavaScript `object`. Declaring it looks like this:
+
+```jsx
+this.state = {
+
+}
+```
+
+You have access to the `state` object throughout the life of your component. You can update it, render it in your UI, and pass it as props to child components. 

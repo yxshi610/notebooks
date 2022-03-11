@@ -10,12 +10,13 @@ shader: program on GPU.
 
 OpenGL, seen as a large state machine. The state is commonly referred to as the OpenGL context.   
 Object: 
+
 ```cpp
 // The State of OpenGL
 struct OpenGL_Context {
-  	...
-  	object_name* object_Window_Target;
-  	...  	
+      ...
+      object_name* object_Window_Target;
+      ...      
 };
 
 // create object and store reference
@@ -26,13 +27,14 @@ glBindObject(GL_WINDOW_TARGET, objectId);
 // set options of object currently bound to GL_WINDOW_TARGET
 glSetObjectOption(GL_WINDOW_TARGET, GL_OPTION_WINDOW_WIDTH,  800);
 glSetObjectOption(GL_WINDOW_TARGET, GL_OPTION_WINDOW_HEIGHT, 600);
-// set context target back to default
+// set context target back to default, unbind from GL_WINDOW_TARGET
 glBindObject(GL_WINDOW_TARGET, 0);
 ```
 
 #### Setting up OpenGL and Creating a Window in C++
 
 GLFW: open source, multi-platform library. simple API for creating windows, contexts and surfaces, receiving input and events.
+
 ```cpp
 glfwInit();
 // check & windowHint
@@ -40,6 +42,7 @@ GLFWwindow* window = glfwCreateWindow(800, 600, "Hello!", NULL, NULL);
 // check else glfwTerminate();
 glfwMakeContextCurrent(window);
 ```
+
 About viewport and glfw_window_size
 
 ```cpp
@@ -84,13 +87,12 @@ vertex buffer: memory buffer. push bytes into it. in video ram.
 - ...
 
 ```cpp
-
 static unsigned int CompileShader(unsigned int type, const std::string& source) {
     unsigned int id = glCreateShader(type);
     const char* src = source.c_str();
     glShaderSource(id, 1, &src, nullptr);
     glCompileShader(id);
-    
+
     int result;
     glGetShaderiv(id, GL_COMPILE_STATUS, &result);
     if (result == GL_FALSE) {
@@ -103,7 +105,7 @@ static unsigned int CompileShader(unsigned int type, const std::string& source) 
         glDeleteShader(id);
         return 0;
     }
-        
+
     return id;
 }
 

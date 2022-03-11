@@ -136,6 +136,17 @@ Vector3 operator - (Vector3 &second) {
     return res;
 }
 ```
+- abstract class: pure virtual function in the calss. whose objects can never be created.
+- static member: space for the static variable in class is allocated for the lifetime of the program, only one copy. can be accessed by all objects of that class.
+- static function: can be accessed without object. call by class name and the scope resolution operator :: 
+
+### Polymorphism
+- Compile Time Polymorphism
+  - Method Overloading
+  - Operator Overloading
+- Runtime Polymorphism
+  - Virtual Function
+  - Function Overloading
 
 ### Inheritance
 
