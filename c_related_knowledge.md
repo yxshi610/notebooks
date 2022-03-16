@@ -1,6 +1,6 @@
 # Cpp
 
-#### 小知识点
+#### Trivial
 
 ```cpp
 int INF = Integer.MAX_VALUE;
@@ -9,6 +9,20 @@ g++ main.cpp -W -Wall // add W & Wall not to ignore warning
 -g // debug版本 vs. release版本
 -O2    // release开个优化
 ```
+
+#### How it works
+
+```cpp
+#include <iostream>
+// #: preprocessing character, include: copy header file.
+std::cout << "Hello world!" << std::endl;
+// <<: overloaded operator. actually can be seen as function, taking parameter from the right.
+std::cin.get();
+// expect enter.
+```
+preprocess: compy .h to .cpp  
+compile all .cpp files one by one  
+linker: link .obj files to be .exe, resolve symbols
 
 #### BASIC KNOWLEDGE
 
@@ -136,11 +150,13 @@ Vector3 operator - (Vector3 &second) {
     return res;
 }
 ```
+
 - abstract class: pure virtual function in the calss. whose objects can never be created.
 - static member: space for the static variable in class is allocated for the lifetime of the program, only one copy. can be accessed by all objects of that class.
 - static function: can be accessed without object. call by class name and the scope resolution operator :: 
 
 ### Polymorphism
+
 - Compile Time Polymorphism
   - Method Overloading
   - Operator Overloading
