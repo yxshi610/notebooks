@@ -77,3 +77,49 @@ worst case: red-black in turns.
 ![Screen Shot 2022-03-11 at 15.36.20.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/03/11-15-36-22-Screen%20Shot%202022-03-11%20at%2015.36.20.png)
 
 ![Screen Shot 2022-03-11 at 15.44.18.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/03/11-15-44-21-Screen%20Shot%202022-03-11%20at%2015.44.18.png)
+
+# Graphs
+
+![Screen Shot 2022-03-21 at 15.29.21.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/03/21-15-29-23-Screen%20Shot%202022-03-21%20at%2015.29.21.png)
+
+Adjacency matrix <-> adjacency list
+
+search framework: dfs, bfs
+
+![Screen Shot 2022-03-21 at 15.38.56.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/03/21-15-38-58-Screen%20Shot%202022-03-21%20at%2015.38.56.png)    recursive
+
+<img src="https://raw.githubusercontent.com/yxshi610/images/main/2022/03/21-15-49-17-Screen%20Shot%202022-03-21%20at%2015.49.14.png" title="" alt="Screen Shot 2022-03-21 at 15.49.14.png" width="393">    queue
+
+## Topological Sort/Task Schedualing
+
+![Screen Shot 2022-03-21 at 16.02.53.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/03/21-16-02-56-Screen%20Shot%202022-03-21%20at%2016.02.53.png)
+
+![Screen Shot 2022-03-21 at 16.04.49.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/03/21-16-04-53-Screen%20Shot%202022-03-21%20at%2016.04.49.png)
+
+### Shorted paths and Dijkstra's Algorithm
+
+![Screen Shot 2022-03-21 at 19.36.10.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/03/21-19-36-13-Screen%20Shot%202022-03-21%20at%2019.36.10.png)
+
+an instance of a greedy algorithm.
+
+(actually like dp) priority queue(shortest be the first).
+
+$O(ElogV)$
+
+![Screen Shot 2022-03-21 at 19.38.17.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/03/21-19-38-20-Screen%20Shot%202022-03-21%20at%2019.38.17.png)
+
+### Minimum Spanning Trees/Kruskal's Algorithm
+
+![Screen Shot 2022-03-21 at 19.47.23.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/03/21-19-47-26-Screen%20Shot%202022-03-21%20at%2019.47.23.png)
+
+an instance of a greedy algorithm.
+
+why: total network costs.
+
+$O(ElogV)$
+
+![Screen Shot 2022-03-21 at 19.48.46.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/03/21-19-48-48-Screen%20Shot%202022-03-21%20at%2019.48.46.png)
+
+# Strings and Counting Sort
+
+pigeonhole principle. (for limited sets)

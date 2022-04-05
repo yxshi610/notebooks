@@ -14,15 +14,30 @@ g++ main.cpp -W -Wall // add W & Wall not to ignore warning
 
 ```cpp
 #include <iostream>
-// #: preprocessing character, include: copy header file.
+// #: preprocessing character
+// #include: copy header file.
 std::cout << "Hello world!" << std::endl;
 // <<: overloaded operator. actually can be seen as function, taking parameter from the right.
 std::cin.get();
 // expect enter.
 ```
-preprocess: compy .h to .cpp  
-compile all .cpp files one by one  
-linker: link .obj files to be .exe, resolve symbols
+
+preprocess: copy .h to .cpp (->.i) 
+
+```cpp
+#define INTEGER int
+// change name  
+#if 0  
+//  {blocked}  
+#endif  
+```
+
+compiler: all .cpp files to .obj one by one  
+linker: link .obj files to be .exe, resolve 
+symbols  
+**entry point checked here, not have to be main**  
+**static** keyword: will only used in this file when link. If in struct or class: shared for all instances.  
+**extern** int var: declare that the var is outside this file.
 
 #### BASIC KNOWLEDGE
 
@@ -299,6 +314,9 @@ Header guards are conditional compilation directives that take the following for
 // your declarations (and certain types of definitions) here
 
 #endif
+
+// Or just
+#pragma once
 ```
 
 For class: put declaration in .h and definition in .cpp (outside with `#include "MyClass.h"` and scope ::)
@@ -858,12 +876,6 @@ pid_t fork(void);
 // 线程：轻量级进程
 #include <pthread.h>
 int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void* (*start_routine)(void *), void *arg);
-```
-
-## Eigen
-
-```c++
-
 ```
 
 ## C
