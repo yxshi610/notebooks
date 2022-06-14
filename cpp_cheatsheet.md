@@ -89,6 +89,22 @@ void merge_sort(int a[], int l, int r) {
 }
 ```
 
+## Next Greater Element
+```cpp
+vector<int> NextGreaterElement(vector<int> nums) {
+    int n = nums.size();
+    vector<int> res(n);
+    stack<int> s;
+    for (int i = n - 1; i >= 0; i--) {
+        while (!s.empty() && s.top() <= nums[i]) {
+            s.pop();
+        }
+        res[i] = s.empty() ? -1 : s.top();
+        s.push(nums[i]);
+    }
+    return res;
+}
+```
 
 # STL
 ## priority_queue
