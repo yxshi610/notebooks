@@ -99,7 +99,7 @@ vector<int> NextGreaterElement(vector<int> nums) {
         while (!s.empty() && s.top() <= nums[i]) {
             s.pop();
         }
-        res[i] = s.empty() ? -1 : s.top();
+        res[i] = s.empty() ? n : s.top();
         s.push(nums[i]);
     }
     return res;
