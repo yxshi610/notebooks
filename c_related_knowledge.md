@@ -570,27 +570,39 @@ char regex_filename[] =
 
 Match a letter (lowercase and then uppercase) or an underscore. Then match zero or more characters, in which each may be a letter, or an underscore or a digit. Then match a literal dot (.). After the dot, match one or more characters, in which each may be a letter or digit indicating file extension.
 
-#### vector
+### STL  
+container + iterator + algorithm + functor (仿函数) + allocator  
 
+#### vector
+sizeof(vector) = 24 = 3 ptrs  
+memory on heap -> end addr -> very original size. = vec.capacity()
+- copy: void TryChange(vector<int> a, vector<int> &b);
+- RAII (Resource acquistion is initialization) 避免内存泄露，离开作用域自动调用析构函数
+- 扩容(*2)的时候内存地址变了，注意之前的指针引用
 ```cpp
+int *p = a.data();  // get first address = &a[0]
 vec.push_back(i);    //在表尾添加元素
 // O(1)操作，但触发扩容就是O(N)
-vec.pop_back();    //在表尾删除元素
+vec.pop_back();    //在表尾删除元素, return void
 vec.erase(vec.begin() + 1); //index = 1
 vector<bool> vec(x, false);    //初始化x个元素的bool向量
 vector<int> vec={x1,x2,x3};    //初始化vector数组
+vec.resize(2);  // resize vec = {x1, x2}
+vec.resize(3);  // resize vec = {x1, x2, 0}
+vec.resize(4, 1); // resize vec = {x1, x2, 0, 1}
+vec.clear();  // size = 0, capacity not changed.
 vector<vector<int>> ans(r, vector<int>(c)); //初始化r*c二维数组
 sums.resize(m + 1, vector<int>(n + 1));        //resize二维数组
 fill(visited.begin(), visited.end(), false); //重新赋值
 res.push_back(vector<int>(i+1,1));    //也可以直接用
 ret.insert(ret.end(),temp.begin(),temp.end());    //数组后面插入数组
 sort(nums.begin(), nums.end());    //排序
-int x=nums.back(); //最后一个
+int x = nums.back(); //最后一个
 
 // 迭代器插入, begin()是0号元素, begin()+2, 插在第3位
 vector<int> ivec;
 auto it=ivec.begin()+2;
-ivec.insert(it, 100);
+ivec.insert(it, 100); // insert 插在迭代器前一位
 
 bool comp(const int &a, const int &b){return a>b;}
 sort(v.begin(), v.end(), comp);        //条件排序
@@ -622,6 +634,9 @@ std::cout << "upper_bound at position " << (up - v.begin()) << '\n';// 7
 
 // min index
 int minPosition = min_element(v.begin(),v.end()) - v.begin();
+
+a.reserve(size);  //预先扩容
+a.shrink_to_fit(); // 释放多余容量重新分配到其他内存
 ```
 
 - `emplace_back()`和`push_back()`的区别
@@ -889,4 +904,44 @@ typedef void (*myfunc)();
 myinteger i;   // is equivalent to    int i;
 mystring s;    // is the same as      char *s;
 myfunc f;      // compile equally as  void (*f)();
+```
+
+## CMake
+GNU Make: write dependencies, Makefile
+- re-compile only changed files
+- make -j, compile in parallel
+- 通配符批量生成构建规则  
+
+CMake:
+- CMakeLists.txt: multi-platform
+- auto-dependencies
+- ...(总之就是比较智能？) 
+
+1. 读取CMakeLists.txt，并在build下生成build/Makefile  
+   ```cmake -B build```
+2. make 读取build/Makefile，开始构建a.out  
+   ```make -C build``` 或者更跨平台 ```cmake --build build```
+3. 执行  
+   ```build/a.out```
+
+CMake 中的静态库和动态库  
+```
+// 静态库 (libtest.a文件，直接把实现搬到a.out)
+add_library(test STATIC src1.cpp src2.cpp)
+// 动态库 (libtest.so文件，运行时查找)
+add_library(test SHARED src1.cpp src2.cpp)
+
+cmake_minimum_required(VERSION 3.12)
+project(hellocmake LANGUAGES CXX)
+add_library(hellolib STATIC hello.cpp)
+// 生成可执行文件
+add_executable(a.out main.cpp)
+// 为myexec链接库文件
+target_link_libraries(a.out PUBLIC hellolib)
+```
+
+```
+"hello.h" 搜索当前文件夹  
+<cstdio>  优先搜索/usr/include/
+#pragma once 加在h头文件前面
 ```
