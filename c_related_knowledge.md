@@ -475,6 +475,33 @@ obj->update(index, val);
 
 ## 智能指针与内存管理
 
+`unique_ptr` 的解构函数会调用`delete p`  
+```cpp
+#include <cstdio>
+#include <memory>
+struct C {
+  C() {
+    printf("allocate memory\n");
+  }
+
+  ~C() {
+    printf("free memory\n");
+  }
+};
+
+int main() {
+  std::unique_ptr<C> p = std::make_unique<C>();
+  if (1) {
+    printf("break");
+    return 1; // free p automatically
+  }
+
+  return 0; // free p.
+}
+```
+
+`unique_ptr` 解决重复释放的方式是禁止拷贝，但这样会造成一些麻烦：例如传参的时候需要预先用`get()`得到原始指针/或者move直接转交控制权。而`shared_ptr`允许拷贝，它解决重复释放的方式是通过引用计数，不过需要维护一个原子性的引用计数器而降低效率，同时也可能出现循环引用的问题导致内存泄漏。循环引用的解决方法是把其中一个`shared_ptr`改成`weak_ptr`，弱指针不改变引用计数。  
+
 引用计数：增加一次对同一个对象的引用，引用对象的引用计数+1， 每删除一次引用，引用计数-1，引用计数减为零时，就自动删除指向的堆内存。
 
 C++11 引入了智能指针的概念，使用了引用计数的想法，不再需要关心手动释放内存。 这些智能指针就包括 `std::shared_ptr`/`std::unique_ptr`/`std::weak_ptr`，使用它们需要包含头文件 `<memory>`。
@@ -637,6 +664,21 @@ int minPosition = min_element(v.begin(),v.end()) - v.begin();
 
 a.reserve(size);  //预先扩容
 a.shrink_to_fit(); // 释放多余容量重新分配到其他内存
+
+// for_each template
+int sum = 0;
+void func(int vi) {
+  sum += vi;
+}
+for_each(v.begin(), v.end(), func);
+// lambda
+int sum = 0;
+for_each(v.begin, v.end(), [&](int vi) {
+  sum += vi;
+})
+// C++17 <numeric> or define by lambda
+int sum = std::reduce(v.begin(), v.end());
+int sum = std::reduce(v.begin(), v.end(), 0, std::plus{});
 ```
 
 - `emplace_back()`和`push_back()`的区别
@@ -793,17 +835,6 @@ double atan(double x);
 
 在一组数的编码中，若任意两个相邻的代码只有一位二进制数不同，则称这种编码为格雷码(Gray Code). 另外,格雷码的最大数与最小数之间也仅一位数不同，即“首尾相连”，因此又称循环码或反射码.
 
-#### 并发问题
-
-```c++
-//信号量
-# include <semaphore.h>
-sem_t x;
-sem_init(&x, 0, 0);
-sem_post(&x);
-sem_wait(&x);
-```
-
 #### 动态规划(Dynamic Programming)
 
 ```c++
@@ -881,18 +912,6 @@ int u = (bs[bucket] | (1 << loc));    //或者，移位
 // 对数时间从数组中找到max、min、sum、最大公约数、最小公倍数
 ```
 
-#### 多线程多进程
-
-```c
-// 进程：分配系统资源的实体，struct task_struct结构体描述，即进程控制块PCB——标识符，状态，优先级，程序计数器（PC，下条指令地址），内存指针，上下文数据（Reg），I/O状态信息，记账信息，其他
-// linux创建子进程：子进程拷贝父进程PCB以及页表等结构，创建完成后具有自己的进程虚地址空间和页表结构，返回0子进程，>0父进程
-#include <unistd.h>
-pid_t fork(void);
-// 线程：轻量级进程
-#include <pthread.h>
-int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void* (*start_routine)(void *), void *arg);
-```
-
 ## C
 
 ```c
@@ -943,5 +962,28 @@ target_link_libraries(a.out PUBLIC hellolib)
 ```
 "hello.h" 搜索当前文件夹  
 <cstdio>  优先搜索/usr/include/
-#pragma once 加在h头文件前面
+#pragma once 加在h头文件前面(或者ifdef)
+```
+
+## 多线程多进程
+
+```c
+// 进程：分配系统资源的实体，struct task_struct结构体描述，即进程控制块PCB——标识符，状态，优先级，程序计数器（PC，下条指令地址），内存指针，上下文数据（Reg），I/O状态信息，记账信息，其他
+// linux创建子进程：子进程拷贝父进程PCB以及页表等结构，创建完成后具有自己的进程虚地址空间和页表结构，返回0子进程，>0父进程
+#include <unistd.h>
+pid_t fork(void);
+// 线程：轻量级进程
+#include <pthread.h>
+int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void* (*start_routine)(void *), void *arg);
+```
+
+#### 并发问题
+
+```c++
+//信号量
+# include <semaphore.h>
+sem_t x;
+sem_init(&x, 0, 0);
+sem_post(&x);
+sem_wait(&x);
 ```
