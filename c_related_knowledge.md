@@ -86,6 +86,77 @@ cout precison: cout << fixed << setprecision(6) << ans[i] << endl;
 
 3. const/constexpr. start with k. `const int kDaysInAWeek = 7;`
 
+## Memory Management
+When a program runs, OS loaded the entire program into memory as well as allocate a whole bunch of phisical RAM. two parts are stack and heap. stack like: one CPU instructor. while heap is heavy: if no free list satisfied, ask OS to give physical RAM.
+```cpp
+  int value = 5;
+  int array[5];
+
+  int* hvalue = new int;
+  *hvalue = 5;
+  delete hvalue;
+
+  int* harray = new int[5];
+  delete[] hvalue;
+```
+```cpp
+// memory tracker
+struct AllocationMetrics {
+  uint32_t TotalAllocated = 0;
+  uint32_t TotalFreed = 0;
+
+  uint32_t CurrentUsage() {
+    return TotalAllocated - TotalFreed;
+  }
+}
+
+static AllocationMetrics s_AllocationMetrics;
+
+// overriding new operator (implemented in std)
+void* operator new(size_t size) {
+  s_AllocationMetrics.TotalAllocated += size;
+  return malloc(size);
+}
+
+void operator delete(void* memory, size_t size) {
+  s_AllocatedMetrics.TotalFreed += size;
+  free(memory);
+}
+
+void operator delete(void* memory) {
+  free(memory);
+}
+
+struct Object {
+  int x, y, z;
+}
+
+static void PrintMemoryUsage() {
+  std::cout << "Memory Usage: " << s_AllocationMetrics.CurrentUsage() << " bytes\n";
+}
+
+int main() {
+  // create on the stack
+  //Object obj;
+  // create on the heap
+  //Object* obj = new Object;
+  PrintMemoryUsage();   // 0
+  std::string string = "abc";
+  PrintMemoryUsage();   // 8
+  {
+    std::unique_ptr<Object> obj = std::make_unique<Object>();
+    PrintMemoryUsage();   // 20
+  }
+  PrintMemoryUsage();   // 8
+}
+```
+two operators used for allocation and deallocation of memory
+- new operator: dynamic memory allocation at runtime
+  - automatically computes the size of the data object
+  - initialize object while creating a memory for it
+- delete operator: deallocation of memroy or release memroy space
+
+
 ## Classes
 
 - OOP: Object-Oriented Programming
@@ -913,6 +984,16 @@ int u = (bs[bucket] | (1 << loc));    //或者，移位
 ```
 
 ## C
+### Compared with C++
+- C is a procedual progamming language and does not support classes and objects, whicle C++ is a combination of both procedual and object-oriented progamming language. --polymorphism, encapsulation, and inheritance.
+- C++ is a superset of C.
+- memory
+  -  C： ```malloc(), calloc(), realloc(), free()```
+  -  C++: ```new, delete```
+
+Why used in embedded systems.
+- Allows a range of progamming styles from high-level application code down to direct low-level manipulation fo hardware registers.
+- Why not C++. C tends to be most portable, well supported language on every platform. naming strangely in assembly. very resource constrained, memory allocation.
 
 ```c
 // typedef is a language construct that associates a name to a type
@@ -967,6 +1048,25 @@ target_link_libraries(a.out PUBLIC hellolib)
 
 ## 多线程多进程
 
+### C++11引入的时间标准库 `std::chrono`
+```cpp
+auto t0 = chrono::steady_clock::now();
+auto t1 = t0 + chrono::seconds(30);
+auto dt = t1 - t0;
+// seconds == duration<int64_t>
+int64_t sec = chrono::duration_cast<chrono::seconds>(dt).count();
+
+// more delicate
+using double_ms = chrono::duration<double, std::milli>;
+double ms = chrono::duration_cast<double_ms>(dt).count();
+
+// multi-plantform sleep_for
+std::this_thread::sleep_for(std::chrono::milliseconds(400));
+// sleep_until
+auto t = std::chrono::steady_clock::now() + std::chrono::milliseconds(400);
+std::this_thread::sleep_until(t);
+```
+
 ```c
 // 进程：分配系统资源的实体，struct task_struct结构体描述，即进程控制块PCB——标识符，状态，优先级，程序计数器（PC，下条指令地址），内存指针，上下文数据（Reg），I/O状态信息，记账信息，其他
 // linux创建子进程：子进程拷贝父进程PCB以及页表等结构，创建完成后具有自己的进程虚地址空间和页表结构，返回0子进程，>0父进程
@@ -975,6 +1075,130 @@ pid_t fork(void);
 // 线程：轻量级进程
 #include <pthread.h>
 int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void* (*start_routine)(void *), void *arg);
+```
+
+### C++11为多线程提供支持`std::thread`
+```cpp
+// thread构造函数参数可以是任意lambda表达式
+// 实现基于pthread
+#include <iostream>
+#include <thread>
+#include <string>
+
+void download(std::string file) {
+  for (int i = 0; i < 10; ++i) {
+    std::cout << "Downloading " << file << " (" << i * 10 << "%)..." << std::endl;
+    std::this_thread::sleep_for(std::chrono::milliseconds(400));
+  }
+  std::cout << "Download complete: " << file << std::endl;
+}
+
+void interact() {
+  std::string name;
+  std::cin >> name;
+  std::cout << "Hi, " << name << std::endl;
+}
+
+int main() {
+  std::thread t1([&] {
+    download("hello.zip");
+  });
+  interact();
+  std::cout << "Waiting for child thread..." << std::endl;
+  t1.join();
+  std::cout << "Child thread exited!" << std::endl;
+  return 0;
+}
+
+// another case, destructor at }
+void myfunc() {
+  std::thread t1([&] {
+    download("hello.zip");
+  });
+  // 线程分离， 生命周期不由thread(自定义析构)管理，而是在线程退出后自动销毁，不过还是会在进程退出(return 0)时退出
+  t1.detach();
+}
+
+// 全局线程池
+std::vector<std::thread> pool;
+
+void myfunc() {
+  std::thread t1([&] {
+    download("hello.zip");
+  });
+  // 移交控制权到全局pool以延长生命周期
+  pool.push_back(std::move(t1));
+}
+
+int main() {
+  myfunc();
+  interact();
+  for (auto &t: pool) t.join();
+}
+
+// ThreadPool class
+class ThreadPool {
+  std::vector<std::thread> m_pool;
+
+public:
+  void push_back(std::thread thr) {
+    m_pool.push_back(std::move(thr));
+  }
+
+  ~ThreadPool() {
+    for (auto &t : m_pool) t.join();
+  }
+}
+
+ThreadPool tpool;
+
+void myfunc() {
+  std::therad t1([&] {
+    download("hello.zip");
+  });
+  tpool.push_back(std::move(t1));
+}
+
+int main() {
+  myfunc();
+  interact();
+  return 0;
+}
+
+// C++20, std::jthread类，其解构函数自动调用join()
+std::vector<std::jthread> pool;
+
+void myfunc() {
+  std::jthread t1([&] {
+    download("hello.zip");
+  });
+  pool.push_back(std::move(t1));
+}
+
+int main() {
+  myfunc();
+  interact();
+  return 0;
+}
+```
+### 异步
+std::async接受一个带返回值的lambda，自身返回一个std::future对象。lambda的函数体将在另一个线程里执行。最后调用future的get()方法，download完成则获取返回值，否则等待。
+```cpp
+int download();
+int main() {
+  std::future<int> fret = std::async([&] {
+    return download("hello.zip");
+  });
+  interact();
+  /*
+  std::cout << "Waiting for download finish." << std::endl;
+  fret.wait();
+  std::cout << "Wait returned!" <<std::endl;
+  */
+  int ret = fret.get();
+  std::cout << "Download resultt:" << ret << std::endl;
+  return 0;
+}
 ```
 
 #### 并发问题
