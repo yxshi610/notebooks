@@ -158,3 +158,10 @@ GNU++17 [std=gnu++17]
 int x = gcd(k, x);
 int y = lcm(l,x);
 ```
+c++ split
+```cpp
+while ((pos = s.find(delimiter)) != std::string::npos) {
+    token = s.substr(0, pos);
+    s.erase(0, pos + delimiter.length());
+}
+```

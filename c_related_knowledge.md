@@ -1,16 +1,6 @@
-# Cpp
+# CPP
 
-#### Trivial
-
-```cpp
-int INF = Integer.MAX_VALUE;
-INT_MAX, INT_MIN.
-g++ main.cpp -W -Wall // add W & Wall not to ignore warning
--g // debug版本 vs. release版本
--O2    // release开个优化
-```
-
-#### How it works
+### How it works
 
 ```cpp
 #include <iostream>
@@ -36,10 +26,8 @@ compiler: all .cpp files to .obj one by one
 linker: link .obj files to be .exe, resolve 
 symbols  
 **entry point checked here, not have to be main**  
-**static** keyword: will only used in this file when link. If in struct or class: shared for all instances.  
-**extern** int var: declare that the var is outside this file.
 
-#### BASIC KNOWLEDGE
+### BASIC KNOWLEDGE
 
 ```cpp
 1. stdin & stdout;
@@ -65,7 +53,7 @@ can use cin and cout but will be faster using scanf and printf especially for la
 
 cout precison: cout << fixed << setprecision(6) << ans[i] << endl;
 ```
-
+#### keyword
 - auto
   
   The **`auto`** keyword is a simple way to declare a variable that has a complicated type. The **`auto`** keyword is a placeholder for a type, but it is not itself a type.
@@ -78,6 +66,77 @@ cout precison: cout << fixed << setprecision(6) << ans[i] << endl;
   
   修饰类成员函数，其目的是防止成员函数修改被调用对象的值，如果我们不想修改一个调用对象的值，所有的成员函数都应当声明为 const 成员函数。
 
+- mutable  
+  cosnt 相反，被mutable修饰的变量（智能修饰类的非静态数据乘员）将永远处于可变的状态，即使在一个const函数中。
+
+- default
+  类默认提供：构造函数、析构函数、拷贝构造函数、拷贝赋值函数（operator=）、移动构造函数。default使函数为编译器默认的形式。编译器默认生成无参构造函数，如果声明有参则编译器不默认生成，这时声明无参就会报错，因此加一个default默认构造函数。（和编译器优化有关
+
+- delete
+  only want people to use method but don't want them to initialize object. cpp have default constructor, so either hide in private, or delete.
+  ```cpp
+  class Log {
+    public:
+      Log() = delete;
+      static void Print() {}
+  }
+  ```
+
+- static  
+  will only used in this file when link. If in struct or class: shared for all instances.  
+
+- extern  
+  int var: declare that the var is outside this file.
+
+- explicit
+  只能用于类的构造函数声明上，防止构造函数进行的隐式转换。
+
+##### C++中的cast
+- const_cast  
+  唯一可以改变const性质的转换
+- static_cast
+- dynamic_cast
+- reinterpret_cast
+##### C中的强制转换
+- (type_name) expression
+
+##### lvalue and rvalue
+```cpp
+// lvalue reference
+int& GetValue() {
+  static int value = 10;
+  return value;
+}
+
+int main() {
+  // assign rvalue to lvalue
+  int i = 10;
+  // assign lvalue to lvalue
+  int a = i;
+  // this works!
+  GetValue() = 5;
+
+  // all left are lvalues, all right are rvalues
+  string a = "a";
+  string b = "b";
+  string c = a + b;
+ }
+
+void PrintName(string& name) {cout << name << endl;}
+int main() {PrintName(c);}
+
+void PrintName(const string& name) {cout << name << endl;}
+int main() {
+  PrintName(c);
+  PrintName(a + b);
+}
+// rvalue reference
+void PrintName(string&& name) {cout << name << endl;}
+int main() {
+  PrintName(a + b);
+}
+```
+
 #### 命名规范
 
 1. 类名：MyClass
@@ -86,7 +145,18 @@ cout precison: cout << fixed << setprecision(6) << ans[i] << endl;
 
 3. const/constexpr. start with k. `const int kDaysInAWeek = 7;`
 
-## Memory Management
+## Memory Management  
+- stack
+  - 编译器管理，局部变量、函数参数
+- heap
+  - 程序员分配、释放
+- static
+  - 全局区（静态区），未初始化的话自动初始化为0，程序结束后由系统释放。局部静态变量语句块结束时结束作用域，但并没有被销毁而仍驻留在内存只是不能访问。
+- 常量存储区
+  - 常量字符串，不允许修改，程序结束后系统释放
+- 程序代码区
+  - 存放函数体的二进制代码
+
 When a program runs, OS loaded the entire program into memory as well as allocate a whole bunch of phisical RAM. two parts are stack and heap. stack like: one CPU instructor. while heap is heavy: if no free list satisfied, ask OS to give physical RAM.
 ```cpp
   int value = 5;
@@ -206,6 +276,8 @@ int main() {
   MyClass myObj(1999);    // Create an object of MyClass (this will call the constructor)
   return 0;
 }
+// use initialize List to construct
+MyClass(int x, int y, int z): _x(x), _y(y), _z(z) {}
 ```
 
 - `public` - members are accessible from outside the class
@@ -287,7 +359,10 @@ class MyChildClass: public MyClass, public MyOtherClass {
 };
 ```
 
-- virtual function (虚函数)
+- virtual function (虚函数)  
+  - 默认会用类内函数，所以加virtual代表用override那个
+  - implemented with V table, map virtual function to the correct overriding at runtime.
+
 
 ```cpp
 class Parent  {      
@@ -332,6 +407,122 @@ int main(int argc, char* argv[])  {
 c: parent function1, child function2
 !c: parent function1, parent function2
 */
+```
+- pure virtual function
+  - abstract class / interface
+  - does not have implementation at base class
+```cpp
+class Base {
+public:
+  virtual std::string GetName() = 0;
+}
+```
+- Consturtor and Destructor for Inheritance
+```cpp
+class Base {
+public:
+  Base() {cout << "Base Constructor" << endl;}
+  ~Base() {cout << "Base Destructor" << endl;}
+}
+
+class Derived : class Base {
+public:
+  Derived() {cout << "Derived Constructor" << endl;}
+  ~Derived() {cout << "Derived Destructor" << endl;}
+}
+
+int main() {
+  Base *base = new Base();           
+  // "Base Constructor"
+  delete base;                       
+  // "Base Desturctor"
+  Derived* derived = new Derived();  
+  // "Base Constructor"
+  // "Derived Constructor"
+  delete derived;                    
+  // "Derived Destructor" 
+  // "Base Destructor"
+  Base* poly = new Derived();
+  // "Base Constructor"
+  // "Derived Constructor"
+  delete poly;
+  // "Base Destructor"  !!! memory leak
+  // To avoid this, add virtual ~Base() {}
+}
+```
+
+#### Copying and Copy Constructors
+```cpp
+sturct Vector2 {
+  float x, y;
+};
+
+int main() {
+  Vector2 a = {2, 3};
+  Vector2 b = a;
+  b.x = 5; // a.x = 2, b.x = 5;
+
+  Vector2* a_ptr = new Vector2();
+  Vector2* b_ptr = a_ptr;
+  b->x = 2; // both a and b.
+}
+
+class String {
+private:
+  char* m_Buffer;
+  unsigned int m_Size;
+public:
+  String(const char* string) {
+    m_Size = strlen(string);
+    m_Buffer = new char[m_Size + 1];
+    //memcpy(m_Buffer, string, m_Size + 1);
+    memcpy(m_Buffer, string, m_Size);
+    m_Buffer[m_Size] = 0;
+  }
+
+  ~String() {
+    delete[] m_Buffer;
+  }
+
+  char& operator[](unsigned int index) {
+    return m_Buffer[index];
+  }
+
+  friend std::ostream& operator<<(std::ostream& stream, const String& string);
+}
+
+std::ostream& operator<<(std::ostream& stream, const String& string) {
+  stream << string.m_Buffer;
+  return stream;
+} 
+
+int main() {
+  String a = "syx";
+  String b = a;
+  b[2] = 'a';         // two be the same. 
+  cout << a << endl;
+  cout << b << endl;
+} // shallow copy, a and b have same ptr, destructe twice. 
+
+// copy constructor
+String(const String& other)
+  : m_Buffer(other.m_Buffer), m_Size(other.m_Size) {}
+// or
+String(const String& other) {
+  memcpy(this, &other, sizeOf(String));
+}
+// if don't want copy constructor
+String(const String& other) = delete;
+// deep copy constructor
+String(const String& other)
+  : m_Buffer(other.m_Buffer), m_Size(other.m_Size) {
+    m_Buffer = new char[m_Size + 1];
+    memcpy(m_Buffer, other.m_Buffer, m_Size + 1);
+  }
+// avoid copy constructor anytime, for performance and safety, just always pass const reference.
+void PrintString(const String& string) {
+  cout << string << endl;
+}
 ```
 
 ### iostream
@@ -833,6 +1024,32 @@ struct TreeNode {
 
 基环外向树：同上但环上节点指向环外。
 
+#### graph 图
+```cpp
+// 图节点的逻辑结构
+class Vertex {
+  int id;
+  Vertex[] neighbors;
+}
+// 实际更常用邻接表和邻接矩阵
+// 图遍历框架
+bool[] visited; // 防止环
+bool[] onPath;
+void traverse(Graph graph, int s) {
+  if (visited[s]) return;
+  visited[s] = true;
+  onPath[s] = true;
+  for (int neighbor : graph.neighbors(s))
+    traverse(graph, neighbor);
+  onPath[s] = false;
+}
+```
+### Dijksra's Algorithm
+- Allow to find the shortest path between any two vertices of a graph.
+- Each subpath is the shortest path.
+- Minimum priority queue used.
+
+
 #### unordered associative container
 
 sometimes need to provide own hasher to work. especially when key is vector. use map directly.
@@ -893,6 +1110,7 @@ eg. 是否能排课
 
 1. BFS
    用数组记录先修课程，入度为0加入队列，时空O(m+n)
+
 
 #### cmath
 
@@ -1210,4 +1428,36 @@ sem_t x;
 sem_init(&x, 0, 0);
 sem_post(&x);
 sem_wait(&x);
+```
+
+#### Trivial
+
+```cpp
+int INF = Integer.MAX_VALUE;
+INT_MAX, INT_MIN.
+g++ main.cpp -W -Wall // add W & Wall not to ignore warning
+-g // debug版本 vs. release版本
+-O2    // release开个优化
+```
+
+strcpy and memcpy: with string and with general memory
+```cpp
+char* strcpy(char* dest, const char* src) {
+  if ((src == NULL) || (dest == NULL))
+    return NULL;
+  
+  char* strDest = dest;
+  while ((*strDest++ = *strSrc++) != '\0'));
+  return dest;
+}
+
+void* memcpy(void* memTo,const void* memFrom, size_t size) {
+  if ((memTo == NULL || memFrom == NULL))
+    return NULL
+  char* tempFrom = (char*)memFrom;
+  char* tempTo = (char*)memTo;
+  while (size-- > 0)
+    *tempTo++ = *tempFrom++;
+  return memTo;
+}
 ```
