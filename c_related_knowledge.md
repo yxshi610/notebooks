@@ -53,7 +53,9 @@ can use cin and cout but will be faster using scanf and printf especially for la
 
 cout precison: cout << fixed << setprecision(6) << ans[i] << endl;
 ```
+
 #### keyword
+
 - auto
   
   The **`auto`** keyword is a simple way to declare a variable that has a complicated type. The **`auto`** keyword is a placeholder for a type, but it is not itself a type.
@@ -74,6 +76,7 @@ cout precison: cout << fixed << setprecision(6) << ans[i] << endl;
 
 - delete
   only want people to use method but don't want them to initialize object. cpp have default constructor, so either hide in private, or delete.
+  
   ```cpp
   class Log {
     public:
@@ -92,15 +95,22 @@ cout precison: cout << fixed << setprecision(6) << ans[i] << endl;
   只能用于类的构造函数声明上，防止构造函数进行的隐式转换。
 
 ##### C++中的cast
+
 - const_cast  
   唯一可以改变const性质的转换
+
 - static_cast
+
 - dynamic_cast
+
 - reinterpret_cast
-##### C中的强制转换
+  
+  ##### C中的强制转换
+
 - (type_name) expression
 
 ##### lvalue and rvalue
+
 ```cpp
 // lvalue reference
 int& GetValue() {
@@ -145,7 +155,8 @@ int main() {
 
 3. const/constexpr. start with k. `const int kDaysInAWeek = 7;`
 
-## Memory Management  
+## Memory Management
+
 - stack
   - 编译器管理，局部变量、函数参数
 - heap
@@ -158,6 +169,7 @@ int main() {
   - 存放函数体的二进制代码
 
 When a program runs, OS loaded the entire program into memory as well as allocate a whole bunch of phisical RAM. two parts are stack and heap. stack like: one CPU instructor. while heap is heavy: if no free list satisfied, ask OS to give physical RAM.
+
 ```cpp
   int value = 5;
   int array[5];
@@ -169,6 +181,7 @@ When a program runs, OS loaded the entire program into memory as well as allocat
   int* harray = new int[5];
   delete[] hvalue;
 ```
+
 ```cpp
 // memory tracker
 struct AllocationMetrics {
@@ -220,12 +233,13 @@ int main() {
   PrintMemoryUsage();   // 8
 }
 ```
+
 two operators used for allocation and deallocation of memory
+
 - new operator: dynamic memory allocation at runtime
   - automatically computes the size of the data object
   - initialize object while creating a memory for it
 - delete operator: deallocation of memroy or release memroy space
-
 
 ## Classes
 
@@ -363,7 +377,6 @@ class MyChildClass: public MyClass, public MyOtherClass {
   - 默认会用类内函数，所以加virtual代表用override那个
   - implemented with V table, map virtual function to the correct overriding at runtime.
 
-
 ```cpp
 class Parent  {      
 public:  
@@ -408,22 +421,29 @@ c: parent function1, child function2
 !c: parent function1, parent function2
 */
 ```
+
 - pure virtual function
+  
   - abstract class / interface
+  
   - does not have implementation at base class
-```cpp
-class Base {
-public:
-  virtual std::string GetName() = 0;
-}
-```
+    
+    ```cpp
+    class Base {
+    public:
+    virtual std::string GetName() = 0;
+    }
+    ```
+
 - Consturtor and Destructor for Inheritance
-```cpp
-class Base {
-public:
+  
+  ```cpp
+  class Base {
+  public:
   Base() {cout << "Base Constructor" << endl;}
   ~Base() {cout << "Base Destructor" << endl;}
-}
+  }
+  ```
 
 class Derived : class Base {
 public:
@@ -449,8 +469,8 @@ int main() {
   // "Base Destructor"  !!! memory leak
   // To avoid this, add virtual ~Base() {}
 }
-```
 
+```
 #### Copying and Copy Constructors
 ```cpp
 sturct Vector2 {
@@ -738,6 +758,7 @@ obj->update(index, val);
 ## 智能指针与内存管理
 
 `unique_ptr` 的解构函数会调用`delete p`  
+
 ```cpp
 #include <cstdio>
 #include <memory>
@@ -859,34 +880,41 @@ char regex_filename[] =
 
 Match a letter (lowercase and then uppercase) or an underscore. Then match zero or more characters, in which each may be a letter, or an underscore or a digit. Then match a literal dot (.). After the dot, match one or more characters, in which each may be a letter or digit indicating file extension.
 
-### STL  
+### STL
+
 container + iterator + algorithm + functor (仿函数) + allocator  
 
 #### vector
+
 sizeof(vector) = 24 = 3 ptrs  
 memory on heap -> end addr -> very original size. = vec.capacity()
+
 - copy: void TryChange(vector<int> a, vector<int> &b);
+
 - RAII (Resource acquistion is initialization) 避免内存泄露，离开作用域自动调用析构函数
+
 - 扩容(*2)的时候内存地址变了，注意之前的指针引用
-```cpp
-int *p = a.data();  // get first address = &a[0]
-vec.push_back(i);    //在表尾添加元素
-// O(1)操作，但触发扩容就是O(N)
-vec.pop_back();    //在表尾删除元素, return void
-vec.erase(vec.begin() + 1); //index = 1
-vector<bool> vec(x, false);    //初始化x个元素的bool向量
-vector<int> vec={x1,x2,x3};    //初始化vector数组
-vec.resize(2);  // resize vec = {x1, x2}
-vec.resize(3);  // resize vec = {x1, x2, 0}
-vec.resize(4, 1); // resize vec = {x1, x2, 0, 1}
-vec.clear();  // size = 0, capacity not changed.
-vector<vector<int>> ans(r, vector<int>(c)); //初始化r*c二维数组
-sums.resize(m + 1, vector<int>(n + 1));        //resize二维数组
-fill(visited.begin(), visited.end(), false); //重新赋值
-res.push_back(vector<int>(i+1,1));    //也可以直接用
-ret.insert(ret.end(),temp.begin(),temp.end());    //数组后面插入数组
-sort(nums.begin(), nums.end());    //排序
-int x = nums.back(); //最后一个
+  
+  ```cpp
+  int *p = a.data();  // get first address = &a[0]
+  vec.push_back(i);    //在表尾添加元素
+  // O(1)操作，但触发扩容就是O(N)
+  vec.pop_back();    //在表尾删除元素, return void
+  vec.erase(vec.begin() + 1); //index = 1
+  vector<bool> vec(x, false);    //初始化x个元素的bool向量
+  vector<int> vec={x1,x2,x3};    //初始化vector数组
+  vec.resize(2);  // resize vec = {x1, x2}
+  vec.resize(3);  // resize vec = {x1, x2, 0}
+  vec.resize(4, 1); // resize vec = {x1, x2, 0, 1}
+  vec.clear();  // size = 0, capacity not changed.
+  vector<vector<int>> ans(r, vector<int>(c)); //初始化r*c二维数组
+  sums.resize(m + 1, vector<int>(n + 1));        //resize二维数组
+  fill(visited.begin(), visited.end(), false); //重新赋值
+  res.push_back(vector<int>(i+1,1));    //也可以直接用
+  ret.insert(ret.end(),temp.begin(),temp.end());    //数组后面插入数组
+  sort(nums.begin(), nums.end());    //排序
+  int x = nums.back(); //最后一个
+  ```
 
 // 迭代器插入, begin()是0号元素, begin()+2, 插在第3位
 vector<int> ivec;
@@ -941,8 +969,8 @@ for_each(v.begin, v.end(), [&](int vi) {
 // C++17 <numeric> or define by lambda
 int sum = std::reduce(v.begin(), v.end());
 int sum = std::reduce(v.begin(), v.end(), 0, std::plus{});
-```
 
+```
 - `emplace_back()`和`push_back()`的区别
 
 push_back() 在底层实现时，会优先选择调用移动构造函数，如果没有才会调用拷贝构造函数。emplace_back() 的执行效率比 push_back() 高。
@@ -951,7 +979,7 @@ push_back() 在底层实现时，会优先选择调用移动构造函数，如�
 
 用e[N]和ne[N]开数组来模拟，head表示头节点的下标，idx存储当前已经用到哪个节点。用数组模拟静态链表会比new快很多。
 
-#### string
+#### std::string
 
 ```cpp
 string str=bitset<32>(n).to_string();    //把n转换成32位字符串
@@ -1025,6 +1053,7 @@ struct TreeNode {
 基环外向树：同上但环上节点指向环外。
 
 #### graph 图
+
 ```cpp
 // 图节点的逻辑结构
 class Vertex {
@@ -1044,11 +1073,12 @@ void traverse(Graph graph, int s) {
   onPath[s] = false;
 }
 ```
+
 ### Dijksra's Algorithm
+
 - Allow to find the shortest path between any two vertices of a graph.
 - Each subpath is the shortest path.
 - Minimum priority queue used.
-
 
 #### unordered associative container
 
@@ -1110,7 +1140,6 @@ eg. 是否能排课
 
 1. BFS
    用数组记录先修课程，入度为0加入队列，时空O(m+n)
-
 
 #### cmath
 
@@ -1201,6 +1230,91 @@ int u = (bs[bucket] | (1 << loc));    //或者，移位
 // 对数时间从数组中找到max、min、sum、最大公约数、最小公倍数
 ```
 
+### 模板元编程 template
+
+```cpp
+template <typename T>
+//template <class T>
+T twice(T t) {
+  return t * 2;
+}
+
+// 继续重载
+string twice(string t) {
+  return t + t;
+}
+
+int main() {
+  cout << twice<int>(21) << endl;
+  cout << twice<float>(3.14f) <<endl;
+  // 也可以自动推导T
+  cout << twice(21) << endl;
+}
+
+// 整数也可以作为模板参数
+// 和函数参数的区别：N是编译器常量，每个不同的N编译器都会单独生成代码，从而可以做单独优化；而func(int N)是运行期敞亮，编译器无法自动优化
+// 一般声明和定义要一起在header
+template <int N>
+void show_times(string msg) {
+  for (int i = 0; i < N; ++i) {
+    cout << msg << endl;
+  }
+}
+
+int main() {
+  show_times<1>("one");
+}
+
+// 编译器优化案例
+template <bool debug>
+int func(int n) {
+  if (debug)
+    cout <<"debug" << endl;
+  // C++17, constespr, 保证是编译器确定的分支
+  if constexpr (debug)
+    cout << "debug" << endl;
+}
+
+int main() {
+  cout << func<true>(4) << endl;
+  cout << func<false>(4) << endl;
+}
+```
+
+### Move Semantics and Perfect Forwarding (移动语义和完美转发)
+
+```cpp
+string foo() {
+  string s = some_value();
+  return s;
+}
+string t = foo();
+// the local variable s is returned by a copy-initialization of a temporary object.
+// which is then used to copy-initialize t.
+// maybe optimized by compilers.
+
+s += some_char(i);
+// virtually the same as s.push_back(some_char(i)), O(1)
+s = s + some_char(i);
+// two copies: a temporary object generated by s + some_char(i), and a copy-assignment to s.
+```
+
+rvalue reference (右值引用)
+
+- lvalue references can only be bound to lvalues.
+
+- rvalue references can only be bound to rvalues.
+
+- lvalue refernce-to-const can also be bound to rvalues.
+
+- rvalue reference-to-const is useless in most cases.
+  
+  ```cpp
+  int&& rr = 42;        // rvalue reference
+  const int& cr = 42;   // const lvalue reference
+  ```
+
+```
 ## C
 ### Compared with C++
 - C is a procedual progamming language and does not support classes and objects, whicle C++ is a combination of both procedual and object-oriented progamming language. --polymorphism, encapsulation, and inheritance.
@@ -1225,16 +1339,18 @@ myfunc f;      // compile equally as  void (*f)();
 ```
 
 ## CMake
+
 GNU Make: write dependencies, Makefile
+
 - re-compile only changed files
 - make -j, compile in parallel
 - 通配符批量生成构建规则  
 
 CMake:
+
 - CMakeLists.txt: multi-platform
 - auto-dependencies
 - ...(总之就是比较智能？) 
-
 1. 读取CMakeLists.txt，并在build下生成build/Makefile  
    ```cmake -B build```
 2. make 读取build/Makefile，开始构建a.out  
@@ -1243,6 +1359,7 @@ CMake:
    ```build/a.out```
 
 CMake 中的静态库和动态库  
+
 ```
 // 静态库 (libtest.a文件，直接把实现搬到a.out)
 add_library(test STATIC src1.cpp src2.cpp)
@@ -1267,6 +1384,7 @@ target_link_libraries(a.out PUBLIC hellolib)
 ## 多线程多进程
 
 ### C++11引入的时间标准库 `std::chrono`
+
 ```cpp
 auto t0 = chrono::steady_clock::now();
 auto t1 = t0 + chrono::seconds(30);
@@ -1296,6 +1414,7 @@ int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void* (*start_
 ```
 
 ### C++11为多线程提供支持`std::thread`
+
 ```cpp
 // thread构造函数参数可以是任意lambda表达式
 // 实现基于pthread
@@ -1399,8 +1518,11 @@ int main() {
   return 0;
 }
 ```
+
 ### 异步
+
 std::async接受一个带返回值的lambda，自身返回一个std::future对象。lambda的函数体将在另一个线程里执行。最后调用future的get()方法，download完成则获取返回值，否则等待。
+
 ```cpp
 int download();
 int main() {
@@ -1441,11 +1563,12 @@ g++ main.cpp -W -Wall // add W & Wall not to ignore warning
 ```
 
 strcpy and memcpy: with string and with general memory
+
 ```cpp
 char* strcpy(char* dest, const char* src) {
   if ((src == NULL) || (dest == NULL))
     return NULL;
-  
+
   char* strDest = dest;
   while ((*strDest++ = *strSrc++) != '\0'));
   return dest;
@@ -1461,3 +1584,43 @@ void* memcpy(void* memTo,const void* memFrom, size_t size) {
   return memTo;
 }
 ```
+
+## Design Patterns
+
+resources: COMP504 and https://refactoring.guru/design-patterns/catalog  
+
+- union
+  
+  - an abstract class be defined as the union of all of its concrete subclasses
+  
+  ![Screen Shot 2022-09-09 at 14.23.05.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/09/09-14-23-13-Screen%20Shot%202022-09-09%20at%2014.23.05.png)
+
+- composite
+  
+  - Composite has a collection of leaf objects extending extract class
+  - Composite operation is a function that *only* iterates through each child operation
+  
+  ![Screen Shot 2022-09-09 at 14.27.43.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/09/09-14-27-47-Screen%20Shot%202022-09-09%20at%2014.27.43.png)
+
+- template
+  
+  - abstract class sets up *invariant* skeleton of the algorithm
+  - concrete subclasses implement specific *variant* algorithmic details
+  
+  ![Screen Shot 2022-09-09 at 14.28.37.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/09/09-14-28-41-Screen%20Shot%202022-09-09%20at%2014.28.37.png)
+  
+- MVC
+  
+  - Controller use an adapter to communicate with model and view
+  
+  ![Screen Shot 2022-09-09 at 14.31.34.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/09/09-14-31-37-Screen%20Shot%202022-09-09%20at%2014.31.34.png)
+  
+  
+
+- strategy
+  
+  - A strategy implements the behavior of the *Context* class
+  
+  - Context is invariant, and strategy is variant.
+  
+  ![Screen Shot 2022-09-09 at 14.15.29.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/09/09-14-15-32-Screen%20Shot%202022-09-09%20at%2014.15.29.png)
