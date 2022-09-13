@@ -1608,14 +1608,12 @@ resources: COMP504 and https://refactoring.guru/design-patterns/catalog
   - concrete subclasses implement specific *variant* algorithmic details
   
   ![Screen Shot 2022-09-09 at 14.28.37.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/09/09-14-28-41-Screen%20Shot%202022-09-09%20at%2014.28.37.png)
-  
+
 - MVC
   
   - Controller use an adapter to communicate with model and view
   
   ![Screen Shot 2022-09-09 at 14.31.34.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/09/09-14-31-37-Screen%20Shot%202022-09-09%20at%2014.31.34.png)
-  
-  
 
 - strategy
   
@@ -1624,3 +1622,18 @@ resources: COMP504 and https://refactoring.guru/design-patterns/catalog
   - Context is invariant, and strategy is variant.
   
   ![Screen Shot 2022-09-09 at 14.15.29.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/09/09-14-15-32-Screen%20Shot%202022-09-09%20at%2014.15.29.png)
+
+- Singleton
+  
+  - when only 1 instance of the class is needed.
+  - The construtcor is made private
+    - use public static method (e.g. getONLY) to access instance
+  - static field ONLY is not automatically initialized
+  
+  ![Screen Shot 2022-09-12 at 19.43.32.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/09/12-19-47-07-Screen%20Shot%202022-09-12%20at%2019.43.32.png)
+
+- Factory
+
+  ![Screen Shot 2022-09-12 at 19.49.15.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/09/12-19-57-44-Screen%20Shot%202022-09-12%20at%2019.49.15.png)
+
+
