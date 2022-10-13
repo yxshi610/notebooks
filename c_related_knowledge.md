@@ -76,6 +76,9 @@ cout precison: cout << fixed << setprecision(6) << ans[i] << endl;
 
 - delete
   only want people to use method but don't want them to initialize object. cpp have default constructor, so either hide in private, or delete.
+
+- final
+  修饰类让类无法被继承，或修饰虚函数让虚函数在子类中不能被重写
   
   ```cpp
   class Log {
@@ -327,14 +330,22 @@ Vector3 operator - (Vector3 &second) {
 - static member: space for the static variable in class is allocated for the lifetime of the program, only one copy. can be accessed by all objects of that class.
 - static function: can be accessed without object. call by class name and the scope resolution operator :: 
 
+- override: subclass method overrides base method
+- overload: same function name with different function signature
+- overwrite: subclass method hides base class method.
+
+### Encapsulation
+
 ### Polymorphism
 
 - Compile Time Polymorphism
   - Method Overloading
   - Operator Overloading
+  - 主要：泛型编程，模板类等等
 - Runtime Polymorphism
   - Virtual Function
   - Function Overloading
+  - 实现：编译时为对象安插虚函数表指针，并为该类设置唯一虚表
 
 ### Inheritance
 
@@ -344,6 +355,7 @@ group the "inheritance concept" into two categories:
 - **base class** (parent) - the class being inherited from
 
 To inherit from a class, use the `:` symbol.
+
 
 ```cpp
 // Base class
@@ -376,6 +388,7 @@ class MyChildClass: public MyClass, public MyOtherClass {
 - virtual function (虚函数)  
   - 默认会用类内函数，所以加virtual代表用override那个
   - implemented with V table, map virtual function to the correct overriding at runtime.
+  - 虚析构函数避免内存泄漏，尤其是子类中有指针成员变量，调用子类析构函数释放内存。
 
 ```cpp
 class Parent  {      
@@ -437,13 +450,12 @@ c: parent function1, child function2
 
 - Consturtor and Destructor for Inheritance
   
-  ```cpp
+```cpp
   class Base {
   public:
   Base() {cout << "Base Constructor" << endl;}
   ~Base() {cout << "Base Destructor" << endl;}
   }
-  ```
 
 class Derived : class Base {
 public:

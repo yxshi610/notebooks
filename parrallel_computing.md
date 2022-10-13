@@ -379,3 +379,5 @@ Cilk Parallel Region(s) Statistics - Elapsed time: 0.043 seconds
    128 processors:	 21.45 - 128.00
    256 processors:	 23.33 - 256.00
 ```
+
+### HPCToolkit
