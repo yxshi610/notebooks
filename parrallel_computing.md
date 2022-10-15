@@ -353,31 +353,84 @@ No errors found by Cilkscreen
 ### cilkview
 
 ![Screen Shot 2022-09-12 at 17.00.49.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/09/12-17-00-59-Screen%20Shot%202022-09-12%20at%2017.00.49.png)
+
 ```bash
 Cilk Parallel Region(s) Statistics - Elapsed time: 0.043 seconds
 1) Parallelism Profile
-   Work :					 25,857,125 instructions
-   Span :					 4,925 instructions
-   Burdened span :				 594,925 instructions
-   Parallelism :				 5250.18
-   Burdened parallelism :			 43.46
-   Number of spawns/syncs:			 121,392
-   Average instructions / strand :		 71
-   Strands along span :				 24
-   Average instructions / strand on span :	 205
-   Total number of atomic instructions : 	 121,395
-   Frame count :				 364,176
-   Entries to parallel region :			 1
+   Work :                     25,857,125 instructions
+   Span :                     4,925 instructions
+   Burdened span :                 594,925 instructions
+   Parallelism :                 5250.18
+   Burdened parallelism :             43.46
+   Number of spawns/syncs:             121,392
+   Average instructions / strand :         71
+   Strands along span :                 24
+   Average instructions / strand on span :     205
+   Total number of atomic instructions :      121,395
+   Frame count :                 364,176
+   Entries to parallel region :             1
 
 2) Speedup Estimate
-     2 processors:	 1.90 - 2.00
-     4 processors:	 3.58 - 4.00
-     8 processors:	 6.28 - 8.00
-    16 processors:	 10.08 - 16.00
-    32 processors:	 14.46 - 32.00
-    64 processors:	 18.47 - 64.00
-   128 processors:	 21.45 - 128.00
-   256 processors:	 23.33 - 256.00
+     2 processors:     1.90 - 2.00
+     4 processors:     3.58 - 4.00
+     8 processors:     6.28 - 8.00
+    16 processors:     10.08 - 16.00
+    32 processors:     14.46 - 32.00
+    64 processors:     18.47 - 64.00
+   128 processors:     21.45 - 128.00
+   256 processors:     23.33 - 256.00
 ```
 
 ### HPCToolkit
+
+- employes binary-level measurement and analysis
+- collects sampling-based measurements of CPU
+- measures GPU performance using APIs provided by vendors
+
+![Screen Shot 2022-10-15 at 13.18.58.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/15-13-19-00-Screen%20Shot%202022-10-15%20at%2013.18.58.png)
+
+### Cache Coherence
+
+#### Protocals
+
+When changing a variable's value: invalidate or update all copies.
+
+![Screen Shot 2022-10-15 at 15.23.55.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/15-15-23-58-Screen%20Shot%202022-10-15%20at%2015.23.55.png)
+
+![Screen Shot 2022-10-15 at 15.25.49.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/15-15-25-51-Screen%20Shot%202022-10-15%20at%2015.25.49.png)
+
+![Screen Shot 2022-10-15 at 15.28.37.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/15-15-28-40-Screen%20Shot%202022-10-15%20at%2015.28.37.png)
+
+- problem: racing to share data
+
+![Screen Shot 2022-10-15 at 15.39.46.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/15-15-39-48-Screen%20Shot%202022-10-15%20at%2015.39.46.png)
+
+#### Snoopy Cache Systems
+
+![Screen Shot 2022-10-15 at 15.59.18.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/15-15-59-20-Screen%20Shot%202022-10-15%20at%2015.59.18.png)
+
+![Screen Shot 2022-10-15 at 15.59.31.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/15-15-59-33-Screen%20Shot%202022-10-15%20at%2015.59.31.png)
+
+- problem: racing to share data
+
+![Screen Shot 2022-10-15 at 15.39.46.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/15-15-39-48-Screen%20Shot%202022-10-15%20at%2015.39.46.png)
+
+![Screen Shot 2022-10-15 at 15.41.03.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/15-15-41-07-Screen%20Shot%202022-10-15%20at%2015.41.03.png)
+
+cost:
+
+- each coherence operation is sent to all processors
+
+- hurts scalability
+
+#### Directory-based Schemes
+
+![Screen Shot 2022-10-15 at 16.01.25.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/15-16-01-27-Screen%20Shot%202022-10-15%20at%2016.01.25.png)
+
+![Screen Shot 2022-10-15 at 15.45.34.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/15-15-45-36-Screen%20Shot%202022-10-15%20at%2015.45.34.png)
+
+Scalability concerns
+
+- directory-based coherence provides better scalability than snooping.
+
+- distributed directories provide best scalability.

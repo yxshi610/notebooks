@@ -174,23 +174,22 @@ Throughput: number of instructions processed per time unit
 
 Pipeline: not decrease latency of single task but increase throughput of entire workload
 
-#### Structural Hazard
+### Pipeline Hazrds
+- Structural Hazard
+   ![Screen Shot 2022-10-12 at 20.15.33.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/12-20-15-36-Screen%20Shot%202022-10-12%20at%2020.15.33.png)
 
-![Screen Shot 2022-10-12 at 20.15.33.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/12-20-15-36-Screen%20Shot%202022-10-12%20at%2020.15.33.png)
+- Data Hazard-ALU/Load
+   ![Screen Shot 2022-10-12 at 20.15.45.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/12-20-15-48-Screen%20Shot%202022-10-12%20at%2020.15.45.png)
 
-#### Data Hazard-ALU/Load
+- Control Hazard-Branching
+   ![Screen Shot 2022-10-12 at 20.16.01.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/12-20-16-05-Screen%20Shot%202022-10-12%20at%2020.16.01.png)
 
-![Screen Shot 2022-10-12 at 20.15.45.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/12-20-15-48-Screen%20Shot%202022-10-12%20at%2020.15.45.png)
-
-#### Control Hazard-Branching
-
-![Screen Shot 2022-10-12 at 20.16.01.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/12-20-16-05-Screen%20Shot%202022-10-12%20at%2020.16.01.png)
 
 #### cache
 
 Locality
 
-![截屏2020-07-3009.27.06](/Users/arrow/Library/Application Support/typora-user-images/截屏2020-07-3009.27.06.png)
+![Screen Shot 2022-10-13 at 10.34.53.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/13-10-34-56-Screen%20Shot%202022-10-13%20at%2010.34.53.png)
 
 4 policies: weite hits and write allocate
 
@@ -231,8 +230,6 @@ Virtual Addr=VPN+Offset
 Physical Addr=PPN+Offset
 
 #### Accessing Pages
-
-
 
 ![Screen Shot 2022-10-12 at 20.18.51.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/12-20-18-53-Screen%20Shot%202022-10-12%20at%2020.18.51.png)
 
