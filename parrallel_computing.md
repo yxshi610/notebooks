@@ -434,3 +434,73 @@ Scalability concerns
 - directory-based coherence provides better scalability than snooping.
 
 - distributed directories provide best scalability.
+
+### Memory Models and weak ordering
+
+- in the context of parallelism, it governs interactions between threads and shared memory, e.g. atomicity, ordering, visibility
+- Weak:  any load/store operation can be reordered with another, as long as the reordering doesn’t affect single thread execution
+- reorder: for performance.
+
+![Screen Shot 2022-10-16 at 14.33.13.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/16-14-33-15-Screen%20Shot%202022-10-16%20at%2014.33.13.png)
+
+![Screen Shot 2022-10-16 at 14.34.35.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/16-14-34-37-Screen%20Shot%202022-10-16%20at%2014.34.35.png)
+
+![Screen Shot 2022-10-16 at 14.34.52.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/16-14-34-55-Screen%20Shot%202022-10-16%20at%2014.34.52.png)
+
+![Screen Shot 2022-10-16 at 14.37.40.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/16-14-37-42-Screen%20Shot%202022-10-16%20at%2014.37.40.png)
+
+![Screen Shot 2022-10-16 at 14.39.30.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/16-14-39-32-Screen%20Shot%202022-10-16%20at%2014.39.30.png)
+
+#### Java Memory Model
+
+- shared memory is part of language
+
+- guarantee safety and security
+
+- performance and programmer sanity
+
+- synchronization consistency
+
+##### Lazy Initialization
+
+![Screen Shot 2022-10-16 at 14.54.43.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/16-14-54-46-Screen%20Shot%202022-10-16%20at%2014.54.43.png)
+
+![Screen Shot 2022-10-16 at 14.56.02.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/16-14-56-04-Screen%20Shot%202022-10-16%20at%2014.56.02.png)
+
+![Screen Shot 2022-10-16 at 14.56.22.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/16-14-56-24-Screen%20Shot%202022-10-16%20at%2014.56.22.png)
+
+![Screen Shot 2022-10-16 at 14.57.52.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/16-14-57-55-Screen%20Shot%202022-10-16%20at%2014.57.52.png)
+
+![Screen Shot 2022-10-16 at 14.59.13.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/16-14-59-15-Screen%20Shot%202022-10-16%20at%2014.59.13.png)
+
+![Screen Shot 2022-10-16 at 15.02.26.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/16-15-02-28-Screen%20Shot%202022-10-16%20at%2015.02.26.png)
+
+![Screen Shot 2022-10-16 at 15.03.29.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/16-15-03-32-Screen%20Shot%202022-10-16%20at%2015.03.29.png)
+
+### Synchronization
+
+![Screen Shot 2022-10-16 at 15.36.15.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/16-15-36-17-Screen%20Shot%202022-10-16%20at%2015.36.15.png)
+
+![Screen Shot 2022-10-16 at 15.37.42.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/16-15-37-44-Screen%20Shot%202022-10-16%20at%2015.37.42.png)
+
+![Screen Shot 2022-10-16 at 15.42.33.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/16-15-42-35-Screen%20Shot%202022-10-16%20at%2015.42.33.png)
+
+#### Atomic Primitives C++
+
+![Screen Shot 2022-10-16 at 15.46.39.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/16-15-46-43-Screen%20Shot%202022-10-16%20at%2015.46.39.png)
+
+- Methods: atomic_exchange, atomic_flag_test_and_set...
+
+- operations
+
+![Screen Shot 2022-10-16 at 15.49.28.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/16-15-49-30-Screen%20Shot%202022-10-16%20at%2015.49.28.png)
+
+![Screen Shot 2022-10-16 at 15.49.51.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/16-15-49-53-Screen%20Shot%202022-10-16%20at%2015.49.51.png)
+
+![Screen Shot 2022-10-16 at 15.50.34.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/16-15-50-37-Screen%20Shot%202022-10-16%20at%2015.50.34.png)
+
+![Screen Shot 2022-10-16 at 15.57.35.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/16-15-57-37-Screen%20Shot%202022-10-16%20at%2015.57.35.png)
+
+![Screen Shot 2022-10-16 at 16.04.51.png](https://raw.githubusercontent.com/yxshi610/images/main/2022/10/16-16-04-53-Screen%20Shot%202022-10-16%20at%2016.04.51.png)
+
+
