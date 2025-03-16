@@ -39,6 +39,7 @@ https://www.bilibili.com/video/BV18A411B7YY
    1. SizeTieredCompaction, 偏向写入吞吐量优化
    2. LeveledCompaction, 偏向读取优化
 
+TODO: 引入LSM引入二级结构的代价在于它放弃了强一致性，只能转向最终一致性
 ## 并发
 解决并发事务（多线程同时请求相同数据）产生的问题:  
 1. 脏读, e.g. 读未提交而回滚
